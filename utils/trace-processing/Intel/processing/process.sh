@@ -44,6 +44,8 @@
 #
 # Step 8: Write the summary file that contains the lowest and the highest event time in the trace file.
 
+export LC_NUMERIC="en_US.UTF-8";
+
 RED='\033[0;31m';
 LRED='\033[1;31m';
 GREEN='\033[0;32m';

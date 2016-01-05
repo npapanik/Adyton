@@ -47,6 +47,8 @@
 #
 #Notes: First Node has ID 1
 
+export LC_NUMERIC="en_US.UTF-8";
+
 RED='\033[0;31m';
 LRED='\033[1;31m';
 GREEN='\033[0;32m';
