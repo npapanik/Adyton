@@ -82,7 +82,7 @@ public:
 
 	Settings *getSettings(int argc, char *argv[]);
 
-	void ParseArgs(char *com, char *option, char *value);
+	void ParseArgs(char *option, char *value);
 	bool isNumber(const string& s);
 
 	int convertTraceToID(const string& s);
