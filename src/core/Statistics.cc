@@ -260,6 +260,7 @@ void Statistics::updateStats(int pktID, int dupHops, double dupDelay)
 	double curDelay;
 
 
+	/* Get the current statistics of the packet */
 	curHops = this->SimGod->getNumHops(pktID);
 	curDelay = this->SimGod->getDelTime(pktID);
 
@@ -271,9 +272,16 @@ void Statistics::updateStats(int pktID, int dupHops, double dupDelay)
 		exit(EXIT_FAILURE);
 	}
 
-	if(this->SimGod->optimizeDelay())
+	if((dupHops < 1) || (curHops < 1))
 	{
-		/* Search for the fastest delivery path with the minimum number of hops */
+		printf("\n[Error]: (Statistics::updateStats) Received a duplicate packet in %d hops, which has already been delivered in %d hops\n\n", dupHops, curHops);
+		exit(EXIT_FAILURE);
+	}
+
+
+	/* Identify the version of Optimal Routing */
+	if(this->SimGod->optimizeDelay())
+	{/* Search for the fastest delivery path with the minimum number of hops */
 		if(dupDelay - curDelay > DBL_EPSILON)
 		{
 			/* Received a duplicate packet with higher delivery delay */
@@ -295,8 +303,7 @@ void Statistics::updateStats(int pktID, int dupHops, double dupDelay)
 		}
 	}
 	else if(this->SimGod->optimizeForwards())
-	{
-		/* Search for the shortest delivery path with the minimum delivery delay */
+	{/* Search for the shortest delivery path with the minimum delivery delay */
 		if(dupHops < curHops)
 		{
 			/* Received a duplicate packet with less number of hops */
@@ -308,11 +315,11 @@ void Statistics::updateStats(int pktID, int dupHops, double dupDelay)
 
 			this->SimGod->updatePktStats(pktID, dupHops, dupDelay);
 		}
-		else if((dupHops == curHops) && (curHops == 1))
+		else
 		{
-			if(dupDelay - curDelay > DBL_EPSILON)
+			if((dupDelay - curDelay > DBL_EPSILON) && (curHops == 1))
 			{
-				/* Received a duplicate packet with higher delivery delay that was also delivered directly */
+				/* Received a duplicate packet with higher delivery delay, which has already been delivered directly */
 				this->SimGod->deleteAllReplicas(pktID);
 			}
 		}
