@@ -130,6 +130,12 @@ Node::Node(int NodeID, PacketPool *pktPool, MAC *mlayer, Statistics *St, Setting
 			this->RLogic = new LSFSprayFocus(this->Pool, this->macLayer, this->Buffer, this->ID, this->Stat, this->SimSet, this->Gd);
 			break;
 		}
+		case CNF_RT:
+		{
+			/* Compare and Forward is the single-copy version of Compare and Replicate */
+			this->RLogic = new CnR(this->Pool, this->macLayer, this->Buffer, this->ID, this->Stat, this->SimSet, this->Gd);
+			break;
+		}
 		case CNR_RT:
 		{
 			this->RLogic = new CnR(this->Pool, this->macLayer, this->Buffer, this->ID, this->Stat, this->SimSet, this->Gd);

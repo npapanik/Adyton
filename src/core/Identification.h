@@ -68,12 +68,13 @@
 #define MSFSW_RT 9
 #define PROPHETSW_RT 10
 #define LSFSF_RT 11
-#define CNR_RT 12
-#define EBR_RT 13
-#define DELEGATION_RT 14
-#define COORD_RT 15
-#define OPTIMAL_RT 16
-#define LAST_ENTRY_RT 17 //this should always be the last one
+#define CNF_RT 12
+#define CNR_RT 13
+#define EBR_RT 14
+#define DELEGATION_RT 15
+#define COORD_RT 16
+#define OPTIMAL_RT 17
+#define LAST_ENTRY_RT 18 //this should always be the last one
 
 //Congestion Control Mechanisms
 #define NOCC_CC 1

@@ -5,6 +5,7 @@ The following is a record of all the significant changes to the Adyton simulator
 
 
 **Unreleased**
+* New routing protocol: Compare and Forward.
 * Improved the execution time of Optimal Routing.
 
 

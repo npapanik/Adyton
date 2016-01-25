@@ -43,6 +43,7 @@ Features
 * [MSF Spray and Wait](http://dx.doi.org/10.1109/TMC.2008.172)
 * PRoPHET Spray and Wait
 * [LSF Spray and Focus](http://dx.doi.org/10.1109/PERCOMW.2007.108)
+* Compare and Forward
 * Compare and Replicate
 * [Encounter-Based Routing](http://dx.doi.org/10.1109/INFCOM.2009.5061994)
 * [Delegation Forwarding](http://dx.doi.org/10.1145/1374618.1374653)
@@ -165,11 +166,12 @@ $ ./Adyton -TRACE <contact trace> -RT <routing protocol> -CC <congestion control
 | MSF Spray and Wait                | 9                | MSF-SNW      |
 | PRoPHET Spray and Wait            | 10               | PROPHET-SNW  |
 | LSF Spray and Focus               | 11               | LSF-SNF      |
-| Compare and Replicate             | 12               | CNR          |
-| Encounter-Based Routing           | 13               | EBR          |
-| Delegation Forwarding             | 14               | DF           |
-| Coordinated Delegation Forwarding | 15               | COORD        |
-| Optimal Routing                   | 16               | OPTIMAL      |
+| Compare and Forward               | 12               | CNF          |
+| Compare and Replicate             | 13               | CNR          |
+| Encounter-Based Routing           | 14               | EBR          |
+| Delegation Forwarding             | 15               | DF           |
+| Coordinated Delegation Forwarding | 16               | COORD        |
+| Optimal Routing                   | 17               | OPTIMAL      |
 
 ```<congestion control mechanism>``` options: 
 

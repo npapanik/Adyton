@@ -794,6 +794,10 @@ void CnR::ReceptionRequest(Header *hd,Packet *pkt,int PID,double CurrentTime)
 		for(int i=1;i<=outgoing[0];i++)
 		{
 			SendPacket(CurrentTime,outgoing[i],hd->GetprevHop(),1);
+			if(Set->isSingleCopy())
+			{
+				Buf->removePkt(outgoing[i]);
+			}
 		}
 		free(outgoing);
 	}

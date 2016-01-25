@@ -290,7 +290,7 @@ void Settings::setContactTrace(int TRC)
 			this->NN = 536;
 			this->ActiveNodes = 536;
 			this->Lines = 8571225;
-			this->Duration = 2070953;
+			this->Duration = 2070953.0;
 			this->scanningInterval = 10.0;
 			this->processingTime="3.5-4 hours";
 			break;
@@ -316,7 +316,7 @@ void Settings::setContactTrace(int TRC)
 			this->NN = 242;
 			this->ActiveNodes = 242;
 			this->Lines = 77521;
-			this->Duration = 116920;
+			this->Duration = 116920.0;
 			this->scanningInterval = 20.0;
 			this->processingTime="40-50 minutes";
 			break;
@@ -474,6 +474,28 @@ void Settings::setRT(int Rout)
 		case LSFSF_RT:
 		{
 			this->RTname.assign("LSF-SprayFocus");
+			break;
+		}
+		case CNF_RT:
+		{
+			string UtilityType;
+			if(this->ProfileExists() && (UtilityType=this->GetProfileAttribute("Utility")) != "none")
+			{
+				//remove all whitespaces
+				UtilityType.erase( std::remove_if( UtilityType.begin(), UtilityType.end(), ::isspace ), UtilityType.end() );
+				if(UtilityType == "LTS" || UtilityType == "DestEnc" || UtilityType == "Enc" || UtilityType == "AMT" || UtilityType == "AIT" || UtilityType == "SPM" || UtilityType == "Bet" || UtilityType == "Sim" || UtilityType == "LastContact" || UtilityType == "Prophet")
+				{
+					this->RTname.assign("CnF." + UtilityType);
+				}
+				else
+				{
+					this->RTname.assign("CnF.LTS");
+				}
+			}
+			else
+			{
+				this->RTname.assign("CnF.LTS");
+			}
 			break;
 		}
 		case CNR_RT:
@@ -1258,6 +1280,10 @@ bool Settings::isSingleCopy(void)
 		{
 			return false;
 		}
+		case CNF_RT:
+		{
+			return true;
+		}
 		case CNR_RT:
 		{
 			return false;
@@ -1334,6 +1360,10 @@ bool Settings::usesLimitedReplication(void)
 		case LSFSF_RT:
 		{
 			return true;
+		}
+		case CNF_RT:
+		{
+			return false;
 		}
 		case CNR_RT:
 		{

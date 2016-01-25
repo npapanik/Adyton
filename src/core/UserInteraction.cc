@@ -1538,6 +1538,23 @@ void UserInteraction::initRTnames()
 	RTnames["LSFSPRAY&FOCUS"] = LSFSF_RT;
 	RTnames["LSFSPRAYFOCUS"] = LSFSF_RT;
 
+	RTnames["CNF"] = CNF_RT;
+	RTnames["CAF"] = CNF_RT;
+	RTnames["C&F"] = CNF_RT;
+	RTnames["CF"] = CNF_RT;
+	RTnames["COMPARE AND FORWARD"] = CNF_RT;
+	RTnames["COMPARE-AND-FORWARD"] = CNF_RT;
+	RTnames["COMPARE_AND_FORWARD"] = CNF_RT;
+	RTnames["COMPAREANDFORWARD"] = CNF_RT;
+	RTnames["COMPARE & FORWARD"] = CNF_RT;
+	RTnames["COMPARE-&-FORWARD"] = CNF_RT;
+	RTnames["COMPARE_&_FORWARD"] = CNF_RT;
+	RTnames["COMPARE&FORWARD"] = CNF_RT;
+	RTnames["COMPARE FORWARD"] = CNF_RT;
+	RTnames["COMPARE-FORWARD"] = CNF_RT;
+	RTnames["COMPARE_FORWARD"] = CNF_RT;
+	RTnames["COMPAREFORWARD"] = CNF_RT;
+
 	RTnames["CNR"] = CNR_RT;
 	RTnames["CAR"] = CNR_RT;
 	RTnames["C&R"] = CNR_RT;
@@ -1949,11 +1966,12 @@ void UserInteraction::printDetails(string param)
 		printf("| %-35s | %-16s | %-20s |\n","MSF Spray and Wait","9","MSF-SNW");
 		printf("| %-35s | %-16s | %-20s |\n","PRoPHET Spray and Wait","10","PROPHET-SNW");
 		printf("| %-35s | %-16s | %-20s |\n","LSF Spray and Focus","11","LSF-SNF");
-		printf("| %-35s | %-16s | %-20s |\n","Compare and Replicate","12","CNR");
-		printf("| %-35s | %-16s | %-20s |\n","Encounter-Based Routing","13","EBR");
-		printf("| %-35s | %-16s | %-20s |\n","Delegation Forwarding","14","DF");
-		printf("| %-35s | %-16s | %-20s |\n","Coordinated Delegation Forwarding","15","COORD");
-		printf("| %-35s | %-16s | %-20s |\n","Optimal Routing","16","OPTIMAL");
+		printf("| %-35s | %-16s | %-20s |\n","Compare and Forward","12","CNF");
+		printf("| %-35s | %-16s | %-20s |\n","Compare and Replicate","13","CNR");
+		printf("| %-35s | %-16s | %-20s |\n","Encounter-Based Routing","14","EBR");
+		printf("| %-35s | %-16s | %-20s |\n","Delegation Forwarding","15","DF");
+		printf("| %-35s | %-16s | %-20s |\n","Coordinated Delegation Forwarding","16","COORD");
+		printf("| %-35s | %-16s | %-20s |\n","Optimal Routing","17","OPTIMAL");
 		printf("+-------------------------------------------------------------------------------+\n\n");
 	}
 	else if(!param.compare("-CC") || !param.compare("CC"))
