@@ -1,6 +1,6 @@
 /*
  *  Adyton: A Network Simulator for Opportunistic Networks
- *  Copyright (C) 2015  Nikolaos Papanikos, Dimitrios-Georgios Akestoridis,
+ *  Copyright (C) 2015, 2016  Nikolaos Papanikos, Dimitrios-Georgios Akestoridis,
  *  and Evangelos Papapetrou
  *
  *  This file is part of Adyton.
@@ -1888,7 +1888,7 @@ void UserInteraction::printLicence()
 	printf("               |___/                \n");
 
 	/* Print a short notice about the software license */
-	printf("\nAdyton  Copyright (C) 2015  Nikolaos Papanikos, Dimitrios-Georgios Akestoridis,\n");
+	printf("\nAdyton  Copyright (C) 2015, 2016  Nikolaos Papanikos, Dimitrios-Georgios Akestoridis,\n");
 	printf("and Evangelos Papapetrou\n");
 	printf("This program comes with ABSOLUTELY NO WARRANTY; for details type `./Adyton warranty'.\n");
 	printf("This is free software, and you are welcome to redistribute it\n");
