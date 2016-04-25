@@ -1,0 +1,778 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Adyton by npapanik</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Adyton</h1>
+        <p>Adyton: A Network Simulator for Opportunistic Networks</p>
+
+        <p class="view"><a href="https://github.com/npapanik/Adyton">View the Project on GitHub <small>npapanik/Adyton</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/npapanik/Adyton/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/npapanik/Adyton/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/npapanik/Adyton">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>Adyton is an event-driven network simulator, written in C++, for Opportunistic Networks (a.k.a. Delay-Tolerant Networks) that is capable of processing contact traces.
+The Adyton simulator supports a plethora of routing protocols and real-world contact traces, while also providing several congestion control mechanisms and buffer management policies.</p>
+
+<p>Adyton was developed by <a href="http://cse.uoi.gr/%7Enpapanik">Nikolaos Papanikos</a> and <a href="http://cse.uoi.gr/%7Edakestor">Dimitrios-Georgios Akestoridis</a> during their graduate studies in the <a href="http://cse.uoi.gr">Department of Computer Science and Engineering at University of Ioannina, Greece</a> under the supervision of Prof. <a href="http://cse.uoi.gr/%7Eepap">Evangelos Papapetrou</a>.</p>
+
+<blockquote>
+<p>Adyton was a restricted area within Ancient Greek temples, where oracles and priests gave their oracular responses.</p>
+</blockquote>
+
+<h3>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h3>
+
+<p><strong>Supported Contact Traces<sup><a href="#note1">1</a></sup></strong></p>
+
+<ul>
+<li><a href="http://crawdad.org/unimi/pmtr/20081201/">Milan PMTR</a></li>
+<li><a href="http://crawdad.org/mit/reality/20050701/">MIT Reality Mining</a></li>
+<li><a href="http://crawdad.org/cambridge/haggle/20090529/">Intel</a></li>
+<li><a href="http://crawdad.org/cambridge/haggle/20090529/">Haggle-Cam</a></li>
+<li><a href="http://crawdad.org/cambridge/haggle/20090529/">INFOCOM 2005</a></li>
+<li><a href="http://crawdad.org/cambridge/haggle/20090529/">INFOCOM 2006</a></li>
+<li><a href="http://crawdad.org/st_andrews/sassy/20110603/">SASSY</a></li>
+<li><a href="http://crawdad.org/thlab/sigcomm2009/20120715/">SIGCOMM 2009</a></li>
+<li><a href="http://crawdad.org/upmc/content/20061117/">Cambridge</a></li>
+<li><a href="http://crawdad.org/upmc/rollernet/20090202/">RollerNet</a></li>
+<li><a href="http://crawdad.org/strath/nodobo/20110323/">Nodobo</a></li>
+<li><a href="http://sysnet.ucsd.edu/wtd/">UCSD</a></li>
+<li><a href="http://crawdad.org/epfl/mobility/20090224/">Cabspotting</a></li>
+<li><a href="http://www.sociopatterns.org/datasets/primary-school-temporal-network-data/">Lyon Primary School</a></li>
+<li><a href="http://www.salathegroup.com/guide/school_2010.html">Stanford High School</a></li>
+<li><a href="http://crawdad.org/umass/diesel/20080914/">DieselNet</a></li>
+<li><a href="http://crawdad.org/dartmouth/campus/20090909/">Dartmouth</a></li>
+</ul>
+
+<p><strong>Supported Routing Protocols</strong></p>
+
+<ul>
+<li><a href="http://dx.doi.org/10.1109/TNET.2007.897962">Direct Delivery</a></li>
+<li><a href="http://issg.cs.duke.edu/epidemic/epidemic.pdf">Epidemic Routing</a></li>
+<li><a href="https://datatracker.ietf.org/doc/rfc6693/">PRoPHET</a></li>
+<li><a href="http://dx.doi.org/10.1145/1288107.1288113">SimBet</a></li>
+<li><a href="http://dx.doi.org/10.1109/TMC.2008.161">SimBetTS</a></li>
+<li><a href="http://dx.doi.org/10.1109/TMC.2010.246">Bubble Rap</a></li>
+<li><a href="http://dx.doi.org/10.1145/1080139.1080143">Spray and Wait</a></li>
+<li><a href="http://dx.doi.org/10.1109/TMC.2008.172">LSF Spray and Wait</a></li>
+<li><a href="http://dx.doi.org/10.1109/TMC.2008.172">MSF Spray and Wait</a></li>
+<li>PRoPHET Spray and Wait</li>
+<li><a href="http://dx.doi.org/10.1109/PERCOMW.2007.108">LSF Spray and Focus</a></li>
+<li>Compare and Replicate</li>
+<li><a href="http://dx.doi.org/10.1109/INFCOM.2009.5061994">Encounter-Based Routing</a></li>
+<li><a href="http://dx.doi.org/10.1145/1374618.1374653">Delegation Forwarding</a></li>
+<li><a href="http://dx.doi.org/10.1109/WiMOB.2014.6962142">Coordinated Delegation Forwarding</a></li>
+<li>Optimal Routing</li>
+</ul>
+
+<p><strong>Supported Congestion Control Mechanisms<sup><a href="#note2">2</a></sup></strong></p>
+
+<ul>
+<li>Avoid Overflow</li>
+<li><a href="http://dx.doi.org/10.2514/6.2006-5970">Autonomous Congestion Control (ACC)</a></li>
+<li><a href="http://dx.doi.org/10.1109/INFCOM.2009.5061993">FairRoute (FR)</a></li>
+<li><a href="http://dx.doi.org/10.1007/978-3-642-21560-5_32">Buffer Space Advertisements (BSA)</a></li>
+<li><a href="http://dx.doi.org/10.1109/MCOM.2014.6829943">Context-Aware Congestion Control (CACC)</a></li>
+<li><a href="http://dx.doi.org/10.1109/WiMOB.2014.6962204">Congestion Control with Adjustable Fairness (CCAF)</a></li>
+</ul>
+
+<p><strong>Supported Scheduling Policies<sup><a href="#note2">2</a></sup></strong></p>
+
+<ul>
+<li><a href="http://dx.doi.org/10.1145/1409985.1409994">FIFO</a></li>
+<li><a href="http://dx.doi.org/10.1145/1409985.1409994">LIFO</a></li>
+<li><a href="http://dx.doi.org/10.1109/COMSWA.2006.1665196">GRTRMax</a></li>
+<li><a href="http://dx.doi.org/10.1109/COMSWA.2006.1665196">GRTRSort</a></li>
+<li>HNUV</li>
+</ul>
+
+<p><strong>Supported Dropping Policies</strong></p>
+
+<ul>
+<li><a href="http://dx.doi.org/10.1145/1409985.1409994">Drop Front</a></li>
+<li><a href="http://dx.doi.org/10.1145/1409985.1409994">Drop Tail</a></li>
+<li><a href="http://dx.doi.org/10.1109/ISWC.2001.962117">Drop Oldest</a></li>
+<li>Drop Youngest</li>
+<li>Drop Front - Avoid Source Packets</li>
+<li>Drop Tail - Avoid Source Packets</li>
+<li>Drop Oldest - Avoid Source Packets</li>
+<li>Drop Youngest - Avoid Source Packets</li>
+</ul>
+
+<p><strong>Supported Deletion Mechanisms<sup><a href="#note3">3</a></sup></strong></p>
+
+<ul>
+<li><a href="http://dx.doi.org/10.1109/TNET.2005.863461">Just TTL</a></li>
+<li>No Duplicates - Delete Replicas</li>
+<li>No Duplicates - Keep Replicating</li>
+<li><a href="http://dx.doi.org/10.1109/TNET.2005.863461">Vaccine</a></li>
+<li>Cataclysm</li>
+</ul>
+
+<p><a name="note1">1</a>: Note that the original traces are not directly supported by Adyton. Further processing is required for each trace in order to be compatible with Adyton. More instructions about trace processing can be found in the utils/trace-processing directory. For any questions or special requests please contact us.</p>
+
+<p><a name="note2">2</a>: Currently all congestion control mechanisms and some scheduling policies are supported only by single-copy routing protocols. Their use in multi-copy protocols is still experimental.</p>
+
+<p><a name="note3">3</a>: Deletion mechanisms are used only in the case of multi-copy routing protocols where multiple packet replicas exist throughout the network.</p>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
+
+<p><strong>Requirements</strong></p>
+
+<p>Adyton currently supports only Linux-based systems with a proper C++ compiler.
+All the required third-party libraries are included in the ext/ directory.</p>
+
+<p><strong>Compiling</strong></p>
+
+<p>To compile Adyton from source code, just execute the following command inside the src/ directory:</p>
+
+<pre><code>$ make
+</code></pre>
+
+<p><strong>Execution</strong></p>
+
+<p>After compiling Adyton from source code, you can use the executable file to run a simulation with the default settings with the following command:</p>
+
+<pre><code>$ ./Adyton
+</code></pre>
+
+<h3>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration</h3>
+
+<p><strong>Syntax</strong></p>
+
+<pre><code>$ ./Adyton -TRACE &lt;contact trace&gt; -RT &lt;routing protocol&gt; -CC &lt;congestion control mechanism&gt; -SP &lt;scheduling policy&gt; -DP &lt;dropping policy&gt; -DM &lt;deletion mechanism&gt; -OUTPUT &lt;output type&gt; -TRAFFIC_TYPE &lt;traffic type&gt; -TRAFFIC_LOAD &lt;number of packets&gt; -TTL &lt;time to live&gt; -BUFFER &lt;buffer size&gt; -REP &lt;replication number&gt; -SPLIT &lt;number of pieces&gt; -SEED &lt;seed number&gt; -PROFILE &lt;text file&gt; -RES_DIR &lt;results directory&gt; -TRC_DIR &lt;trace directory&gt; -BATCH &lt;batch mode&gt;
+</code></pre>
+
+<p><strong>Options</strong></p>
+
+<p><code>&lt;contact trace&gt;</code> options:</p>
+
+<table>
+<thead>
+<tr>
+<th>Contact Trace</th>
+<th>Arithmetic Value</th>
+<th>String Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Milan PMTR</td>
+<td>1</td>
+<td>MILAN</td>
+</tr>
+<tr>
+<td>MIT Reality Mining</td>
+<td>2</td>
+<td>REALITY</td>
+</tr>
+<tr>
+<td>Intel</td>
+<td>3</td>
+<td>INTEL</td>
+</tr>
+<tr>
+<td>Haggle-Cam</td>
+<td>4</td>
+<td>HAGGLE-CAM</td>
+</tr>
+<tr>
+<td>INFOCOM 2005</td>
+<td>5</td>
+<td>INFOCOM-2005</td>
+</tr>
+<tr>
+<td>INFOCOM 2006</td>
+<td>6</td>
+<td>INFOCOM-2006</td>
+</tr>
+<tr>
+<td>INFOCOM 2006 (Short Range)</td>
+<td>7</td>
+<td>INFOCOM-2006-SR</td>
+</tr>
+<tr>
+<td>SASSY</td>
+<td>8</td>
+<td>SASSY</td>
+</tr>
+<tr>
+<td>SIGCOMM 2009</td>
+<td>9</td>
+<td>SIGCOMM-2009</td>
+</tr>
+<tr>
+<td>Cambridge</td>
+<td>10</td>
+<td>CAMBRIDGE</td>
+</tr>
+<tr>
+<td>Cambridge Students</td>
+<td>11</td>
+<td>CAMBRIDGE-STUDENTS</td>
+</tr>
+<tr>
+<td>RollerNet</td>
+<td>12</td>
+<td>ROLLERNET</td>
+</tr>
+<tr>
+<td>Nodobo</td>
+<td>13</td>
+<td>NODOBO</td>
+</tr>
+<tr>
+<td>UCSD</td>
+<td>14</td>
+<td>UCSD</td>
+</tr>
+<tr>
+<td>UCSD (3 Weeks)</td>
+<td>15</td>
+<td>UCSD-3-WEEKS</td>
+</tr>
+<tr>
+<td>Cabspotting</td>
+<td>16</td>
+<td>CABS</td>
+</tr>
+<tr>
+<td>Cabspotting (2 Days)</td>
+<td>17</td>
+<td>CABS-2-DAYS</td>
+</tr>
+<tr>
+<td>Lyon Primary School</td>
+<td>18</td>
+<td>LYON</td>
+</tr>
+<tr>
+<td>Stanford High School</td>
+<td>19</td>
+<td>STANFORD</td>
+</tr>
+<tr>
+<td>DieselNet</td>
+<td>20</td>
+<td>DIESELNET</td>
+</tr>
+<tr>
+<td>Dartmouth</td>
+<td>21</td>
+<td>DARTMOUTH</td>
+</tr>
+<tr>
+<td>Dartmouth (2 Weeks)</td>
+<td>22</td>
+<td>DARTMOUTH-2-WEEKS</td>
+</tr>
+<tr>
+<td>Debugging</td>
+<td>23</td>
+<td>DEBUG</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>&lt;routing protocol&gt;</code> options:</p>
+
+<table>
+<thead>
+<tr>
+<th>Routing Protocol</th>
+<th>Arithmetic Value</th>
+<th>String Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direct Delivery</td>
+<td>1</td>
+<td>DIRECT</td>
+</tr>
+<tr>
+<td>Epidemic Routing</td>
+<td>2</td>
+<td>EPIDEMIC</td>
+</tr>
+<tr>
+<td>PRoPHET</td>
+<td>3</td>
+<td>PROPHET</td>
+</tr>
+<tr>
+<td>SimBet</td>
+<td>4</td>
+<td>SIMBET</td>
+</tr>
+<tr>
+<td>SimBetTS</td>
+<td>5</td>
+<td>SIMBETTS</td>
+</tr>
+<tr>
+<td>Bubble Rap</td>
+<td>6</td>
+<td>BUBBLE</td>
+</tr>
+<tr>
+<td>Spray and Wait</td>
+<td>7</td>
+<td>SNW</td>
+</tr>
+<tr>
+<td>LSF Spray and Wait</td>
+<td>8</td>
+<td>LSF-SNW</td>
+</tr>
+<tr>
+<td>MSF Spray and Wait</td>
+<td>9</td>
+<td>MSF-SNW</td>
+</tr>
+<tr>
+<td>PRoPHET Spray and Wait</td>
+<td>10</td>
+<td>PROPHET-SNW</td>
+</tr>
+<tr>
+<td>LSF Spray and Focus</td>
+<td>11</td>
+<td>LSF-SNF</td>
+</tr>
+<tr>
+<td>Compare and Replicate</td>
+<td>12</td>
+<td>CNR</td>
+</tr>
+<tr>
+<td>Encounter-Based Routing</td>
+<td>13</td>
+<td>EBR</td>
+</tr>
+<tr>
+<td>Delegation Forwarding</td>
+<td>14</td>
+<td>DF</td>
+</tr>
+<tr>
+<td>Coordinated Delegation Forwarding</td>
+<td>15</td>
+<td>COORD</td>
+</tr>
+<tr>
+<td>Optimal Routing</td>
+<td>16</td>
+<td>OPTIMAL</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>&lt;congestion control mechanism&gt;</code> options: </p>
+
+<table>
+<thead>
+<tr>
+<th>Congestion Control Mechanism</th>
+<th>Arithmetic Value</th>
+<th>String Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>None</td>
+<td>1</td>
+<td>NONE</td>
+</tr>
+<tr>
+<td>Avoid Overflow</td>
+<td>2</td>
+<td>AVOID-OVERFLOW</td>
+</tr>
+<tr>
+<td>ACC</td>
+<td>3</td>
+<td>ACC</td>
+</tr>
+<tr>
+<td>FairRoute</td>
+<td>4</td>
+<td>FR</td>
+</tr>
+<tr>
+<td>BSA</td>
+<td>5</td>
+<td>BSA</td>
+</tr>
+<tr>
+<td>CACC</td>
+<td>6</td>
+<td>CACC</td>
+</tr>
+<tr>
+<td>CCAF</td>
+<td>7</td>
+<td>CCAF</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>&lt;scheduling policy&gt;</code> options:</p>
+
+<table>
+<thead>
+<tr>
+<th>Scheduling Policy</th>
+<th>Arithmetic Value</th>
+<th>String Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FIFO</td>
+<td>1</td>
+<td>FIFO</td>
+</tr>
+<tr>
+<td>LIFO</td>
+<td>2</td>
+<td>LIFO</td>
+</tr>
+<tr>
+<td>GRTRMax</td>
+<td>3</td>
+<td>GRTRMAX</td>
+</tr>
+<tr>
+<td>GRTRSort</td>
+<td>4</td>
+<td>GRTRSORT</td>
+</tr>
+<tr>
+<td>HNUV</td>
+<td>5</td>
+<td>HNUV</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>&lt;dropping policy&gt;</code> options:</p>
+
+<table>
+<thead>
+<tr>
+<th>Dropping Policy</th>
+<th>Arithmetic Value</th>
+<th>String Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Drop Front</td>
+<td>1</td>
+<td>DF</td>
+</tr>
+<tr>
+<td>Drop Tail</td>
+<td>2</td>
+<td>DT</td>
+</tr>
+<tr>
+<td>Drop Oldest</td>
+<td>3</td>
+<td>DO</td>
+</tr>
+<tr>
+<td>Drop Youngest</td>
+<td>4</td>
+<td>DY</td>
+</tr>
+<tr>
+<td>Drop Front - Avoid Source Packets</td>
+<td>5</td>
+<td>DF-ASP</td>
+</tr>
+<tr>
+<td>Drop Tail - Avoid Source Packets</td>
+<td>6</td>
+<td>DT-ASP</td>
+</tr>
+<tr>
+<td>Drop Oldest - Avoid Source Packets</td>
+<td>7</td>
+<td>SO-ASP</td>
+</tr>
+<tr>
+<td>Drop Youngest - Avoid Source Packets</td>
+<td>8</td>
+<td>DY-ASP</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>&lt;deletion mechanism&gt;</code> options:</p>
+
+<table>
+<thead>
+<tr>
+<th>Deletion Mechanism</th>
+<th>Arithmetic Value</th>
+<th>String Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Just TTL</td>
+<td>1</td>
+<td>JUST-TTL</td>
+</tr>
+<tr>
+<td>No Duplicates - Delete Replicas</td>
+<td>2</td>
+<td>NO-DUPS</td>
+</tr>
+<tr>
+<td>No Duplicates - Keep Replicating</td>
+<td>3</td>
+<td>KEEP-REP</td>
+</tr>
+<tr>
+<td>Vaccine</td>
+<td>4</td>
+<td>VACCINE</td>
+</tr>
+<tr>
+<td>Cataclysm</td>
+<td>5</td>
+<td>CATACLYSM</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>&lt;output type&gt;</code> options:</p>
+
+<table>
+<thead>
+<tr>
+<th>Output Type</th>
+<th>Arithmetic Value</th>
+<th>String Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type 1</td>
+<td>1</td>
+<td>T1</td>
+</tr>
+<tr>
+<td>Type 2</td>
+<td>2</td>
+<td>T2</td>
+</tr>
+<tr>
+<td>Type 3</td>
+<td>3</td>
+<td>T3</td>
+</tr>
+<tr>
+<td>Type 4</td>
+<td>4</td>
+<td>T4</td>
+</tr>
+<tr>
+<td>Type 5</td>
+<td>5</td>
+<td>T5</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>&lt;traffic type&gt;</code> options:</p>
+
+<table>
+<thead>
+<tr>
+<th>Traffic Type</th>
+<th>Arithmetic Value</th>
+<th>String Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uniform</td>
+<td>1</td>
+<td>UNIFORM</td>
+</tr>
+<tr>
+<td>Burst</td>
+<td>2</td>
+<td>BURST</td>
+</tr>
+<tr>
+<td>Sample</td>
+<td>3</td>
+<td>SAMPLE</td>
+</tr>
+<tr>
+<td>Predefined</td>
+<td>4</td>
+<td>PREDEFINED</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>&lt;number of packets&gt;</code> is the number of packets that will be created.</p>
+
+<p><code>&lt;time to live&gt;</code> is defined as a timeout value, which specifies when a packet is no longer useful and should be deleted (if  is equal to 0, the TTL value will be infinite).</p>
+
+<p><code>&lt;buffer size&gt;</code> is defined as the maximum number of packets that each node can store (if  is equal to 0, infinite buffers will be used).</p>
+
+<p><code>&lt;replication number&gt;</code> is the replicas of each original packet (used only for multi-copy protocols).</p>
+
+<p><code>&lt;number of pieces&gt;</code> is the number of pieces to split the contact trace file, before uploading to memory.</p>
+
+<p><code>&lt;seed number&gt;</code> is used by the pseudo-random number generator algorithm.</p>
+
+<p><code>&lt;text file&gt;</code> is the name of a text file with additional parameter arguments.</p>
+
+<p><code>&lt;results directory&gt;</code> is the name of the directory that will store the results of the simulation.</p>
+
+<p><code>&lt;trace directory&gt;</code> is the name of the directory that stores the contact trace files.</p>
+
+<p><code>&lt;batch mode&gt;</code> options:</p>
+
+<ul>
+<li>ON = the results will not be printed</li>
+<li>OFF = all the results will be printed</li>
+</ul>
+
+<p><strong>Default Settings</strong></p>
+
+<ul>
+<li>
+<code>&lt;contact trace&gt;</code> = MILAN</li>
+<li>
+<code>&lt;routing protocol&gt;</code> = DIRECT</li>
+<li>
+<code>&lt;congestion control mechanism&gt;</code> = NONE</li>
+<li>
+<code>&lt;scheduling policy&gt;</code> = FIFO</li>
+<li>
+<code>&lt;dropping policy&gt;</code> = DF</li>
+<li>
+<code>&lt;deletion mechanism&gt;</code> = JUST-TTL</li>
+<li>
+<code>&lt;output type&gt;</code> = Τ1</li>
+<li>
+<code>&lt;traffic type&gt;</code> = UNIFORM</li>
+<li>
+<code>&lt;number of packets&gt;</code> = 10000</li>
+<li>
+<code>&lt;time to live&gt;</code> = 0</li>
+<li>
+<code>&lt;buffer size&gt;</code> = 0</li>
+<li>
+<code>&lt;replication number&gt;</code> = 1</li>
+<li>
+<code>&lt;number of pieces&gt;</code> = 100</li>
+<li>
+<code>&lt;seed number&gt;</code> = time(NULL)</li>
+<li>
+<code>&lt;text file&gt;</code> = ""</li>
+<li>
+<code>&lt;results directory&gt;</code> = "../res/"</li>
+<li>
+<code>&lt;trace directory&gt;</code> = "../trc/"</li>
+<li>
+<code>&lt;batch mode&gt;</code> = OFF</li>
+</ul>
+
+<h3>
+<a id="how-to-cite-adyton" class="anchor" href="#how-to-cite-adyton" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to cite Adyton</h3>
+
+<p>When you write a paper that involves the use of Adyton, we would appreciate it if you can cite our tool using the following entry.</p>
+
+<ul>
+<li><p>N. Papanikos, D.-G. Akestoridis, E. Papapetrou, "Adyton: A network simulator for opportunistic networks", 2015. [Online]. Available: <a href="https://github.com/npapanik/Adyton">https://github.com/npapanik/Adyton</a>.</p></li>
+<li>
+<p>BibTeX entry: </p>
+
+<blockquote>
+<p><a href="https://github.com/misc" class="user-mention">@misc</a>{Adyton,<br>
+  author = {Papanikos, Nikolaos and Akestoridis, Dimitrios-Georgios and Papapetrou, Evangelos},<br>
+  title = {Adyton: A Network Simulator for Opportunistic Networks},<br>
+  howpublished = {[Online]. Available: <a href="https://github.com/npapanik/Adyton">https://github.com/npapanik/Adyton</a>},<br>
+  year = {2015}<br>
+}</p>
+</blockquote>
+</li>
+</ul>
+
+<h3>
+<a id="publications" class="anchor" href="#publications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Publications</h3>
+
+<p>Adyton has been used in the following publications:</p>
+
+<ul>
+<li>D.-G. Akestoridis, N. Papanikos, and E. Papapetrou, "Exploiting Social Preferences for Congestion Control in Opportunistic Networks", in <em>Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)</em>, 2014, pp. 413-418. DOI: <a href="http://dx.doi.org/10.1109/WiMOB.2014.6962204">10.1109/WiMOB.2014.6962204</a>.</li>
+<li>N. Papanikos, and E. Papapetrou, "Coordinating Replication Decisions in Multi-copy Routing for Opportunistic Networks", in <em>Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)</em>, 2014, pp. 8-13. DOI: <a href="http://dx.doi.org/10.1109/WiMOB.2014.6962142">10.1109/WiMOB.2014.6962142</a>.</li>
+</ul>
+
+<h3>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h3>
+
+<p>Copyright (C) 2015  Nikolaos Papanikos, Dimitrios-Georgios Akestoridis,
+and Evangelos Papapetrou</p>
+
+<p>Adyton is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+
+<p>Adyton is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU General Public License
+along with Adyton.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<ul>
+<li>Nikolaos Papanikos (<a href="https://github.com/npapanik" class="user-mention">@npapanik</a>)</li>
+<li>Dimitrios-Georgios Akestoridis (<a href="https://github.com/akestoridis" class="user-mention">@akestoridis</a>)</li>
+<li>Evangelos Papapetrou</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/npapanik">npapanik</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
