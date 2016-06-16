@@ -34,6 +34,7 @@ UserInteraction::UserInteraction()
 	profileName="";
 	resDir ="";
 	trcDir = "";
+	customTrcPath="";
 	includedProfile = false;
 	modifiedResDir = false;
 	modifiedTrcDir = false;
@@ -83,6 +84,13 @@ UserInteraction::~UserInteraction()
 	TrafficTypenames.clear();
 
 	return;
+}
+
+string remove_ws( const std::string& str )
+{
+    std::string str_no_ws ;
+    for( char c : str ) if( !std::isspace(c) ) str_no_ws += c ;
+    return str_no_ws ;
 }
 
 
@@ -204,6 +212,10 @@ Settings *UserInteraction::getSettings(int argc, char *argv[])
 	if(TRC != NOTSET)
 	{
 		Set->setContactTrace(TRC);
+		if(TRC == CUSTOM_TR)
+		{
+			processCustomtrc();
+		}
 	}
 
 
@@ -326,19 +338,200 @@ Settings *UserInteraction::getSettings(int argc, char *argv[])
 	return Set;
 }
 
+void UserInteraction::processCustomtrc(void)
+{
+	string workingtrc="";
+	//Check if trace file exists
+	ifstream test1(customTrcPath);
+	ifstream test2("../trc/"+customTrcPath);
+	bool modDir=false;
+	if(modifiedTrcDir)
+	{
+		ifstream test3(trcDir+"/"+customTrcPath);
+		if(test3)
+		{
+			modDir=true;
+			workingtrc.assign(trcDir+"/"+customTrcPath);
+		}
+	}
+	if(test1)
+	{
+		workingtrc.assign(customTrcPath);
+	}
+	if(test2)
+	{
+		workingtrc.assign("../trc/"+customTrcPath);
+	}
+	if (!test1 && !test2 && !modDir)
+	{
+		printf("\n[Error] Cannot open file \"%s\". Please make sure this trace file exists.\n",customTrcPath.c_str());
+		printf("Tried the following locations:\n");
+		printf("- \"%s\"\n",customTrcPath.c_str());
+		printf("- \"../trc/%s\"\n",customTrcPath.c_str());
+		if(modifiedTrcDir)
+		{
+			printf("\t- \"%s/%s\"\n",trcDir.c_str(),customTrcPath.c_str());
+		}
+		printf("\n");
+		exit(EXIT_FAILURE);
+	}
+	//Get the trace name
+	string base_filename = workingtrc.substr(workingtrc.find_last_of("/\\") + 1);
+	string::size_type const p(base_filename.find_last_of('.'));
+	string scenario_name = base_filename.substr(0, p);
+	printf("Loading data from \"%s\".. ",workingtrc.c_str());
+	fflush(stdout);
+	
+	string contacts = tmpnam(nullptr);
+	string presence = tmpnam(nullptr);
+	ofstream contactsFile;
+	ofstream presenceFile;
+	string tmpContactsName(contacts + "_" + scenario_name + "_adyton");
+	string tmpPresenceName(presence + "_" + scenario_name + "_adyton");
+	contactsFile.open(tmpContactsName);
+	presenceFile.open(tmpPresenceName);
+	int readNN=-1;
+	int readACT=-1;
+	int readNoL=-1;
+	double readDUR=0.0;
+	double readSCAN=0.0;
+	string readPROCtime="";
+	int part=0;
+	string line="";
+	ifstream infile;
+	infile.open(workingtrc);
+	//count the number of lines
+	int totalLines=0;
+	while(getline(infile,line))
+	{
+		totalLines++;
+	}
+	int oldprogress=0;
+	double progress =0.0;
+	int fraction=0;
+	string progressIndicator("[0%]");
+	printf("%s",progressIndicator.c_str());
+	int currentLine=0;
+	infile.clear();
+	infile.seekg(0, infile.beg);
+	while(getline(infile,line))
+	{
+		if(line[0] == '#')
+		{
+			part++;
+			continue;
+		}
+		switch(part)
+		{
+			case 1:
+			{
+				string::size_type position = line.find("NN");
+				if (position != string::npos) 
+				{
+					line.erase(position,position+2);
+					line=remove_ws(line);
+					readNN=atoi(line.c_str());
+					//printf("%s\n",line.c_str());
+				}
+				position=line.find("ACT");
+				if (position != string::npos) 
+				{
+					line.erase(position,position+3);
+					line=remove_ws(line);
+					readACT=atoi(line.c_str());
+					//printf("%s\n",line.c_str());
+				}
+				position=line.find("NoL");
+				if (position != string::npos) 
+				{
+					line.erase(position,position+3);
+					line=remove_ws(line);
+					readNoL=atoi(line.c_str());
+					//printf("%s\n",line.c_str());
+				}
+				position=line.find("DUR");
+				if (position != string::npos) 
+				{
+					line.erase(position,position+3);
+					line=remove_ws(line);
+					readDUR=atof(line.c_str());
+					//printf("%s\n",line.c_str());
+				}
+				position=line.find("SCAN");
+				if (position != string::npos) 
+				{
+					line.erase(position,position+4);
+					line=remove_ws(line);
+					readSCAN=atof(line.c_str());
+					//printf("%s\n",line.c_str());
+				}
+				position=line.find("PROC");
+				if (position != string::npos)
+				{
+					line.erase(position,position+4);
+					line=remove_ws(line);
+					readPROCtime.assign(line);
+					//printf("%s\n",line.c_str());
+				}
+				break;
+			}
+			case 2:
+			{
+				presenceFile << line << endl;
+				break;
+			}
+			case 3:
+			{
+				contactsFile << line << endl;
+				break;
+			}
+			default:
+			{
+				printf("\n[Error] The provided trace file \"%s\" does not have a supported format!\n\n",workingtrc.c_str());
+			exit(EXIT_FAILURE);
+			}
+		}
+		currentLine++;
+		progress=((double)currentLine/(double)totalLines)*100.0;
+		fraction=(int)progress;
+		if(fraction > (oldprogress+4))
+		{
+			for(int i=0;i<(int)progressIndicator.length();i++)
+			{
+				printf("\b");
+			}
+			progressIndicator="["+ to_string(fraction) +"%]";
+			printf("%s",progressIndicator.c_str());
+			oldprogress=fraction;
+			fflush(stdout);
+		}
+	}
+	infile.close();
+	contactsFile.close();
+	presenceFile.close();
+	Set->setCustomTrcInfo(scenario_name, tmpContactsName, tmpPresenceName, readNN, readACT, readNoL, readDUR, readSCAN, readPROCtime, workingtrc);
+	for(int i=0;i<(int)progressIndicator.length();i++)
+	{
+		printf("\b");
+	}
+	printf("[OK] \n");
+	return;
+}
+
+
 
 void UserInteraction::ParseArgs(char *option, char *value)
 {
-	int convertedValue;
-	string optionType;
-	string userInput;
-
-
+	int convertedValue=-1;
+	string optionType="";
+	string userInput="";
+	string userInputLowerCase="";
+	
 	/* Initializations */
 	optionType.assign(option);
 	userInput.assign(value);
-
-
+	userInputLowerCase.assign(value);
+	
 	/* Transform the arguments into uppercase */
 	transform(optionType.begin(), optionType.end(), optionType.begin(), ::toupper);
 	transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
@@ -351,7 +544,15 @@ void UserInteraction::ParseArgs(char *option, char *value)
 		{
 			if(!isNumber(userInput))
 			{
-				convertedValue = convertTraceToID(userInput);
+				if(userInput.substr(userInput.find_last_of(".") + 1) == "ADY" || userInput.substr(userInput.find_last_of(".") + 1) == "ADYTON")
+				{
+					customTrcPath=userInputLowerCase;
+					convertedValue=CUSTOM_TR;
+				}
+				else
+				{
+					convertedValue = convertTraceToID(userInput);
+				}
 			}
 			else
 			{

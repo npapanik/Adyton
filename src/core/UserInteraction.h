@@ -28,7 +28,9 @@
 #include <math.h>
 #include <string.h>
 #include <map>
-
+#include <fstream>
+#include <iostream>
+#include <boost/progress.hpp>
 
 #ifndef SETTINGS_H
 	#define SETTINGS_H
@@ -45,6 +47,7 @@ private:
 	string profileName;		/* filename (and path) of the file that contains extra attributes */
 	string resDir;			/* name of the directory that will store the results of the simulation */
 	string trcDir;			/* name of the directory that stores the contact trace files. */
+	string customTrcPath;
 	bool includedProfile;
 	bool modifiedResDir;
 	bool modifiedTrcDir;
@@ -75,6 +78,8 @@ private:
 	map<string,int> DMnames;
 	map<string,int> OutputTypenames;
 	map<string,int> TrafficTypenames;
+	
+	void processCustomtrc(void);
 
 public:
 	UserInteraction();

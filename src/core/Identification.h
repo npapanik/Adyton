@@ -54,7 +54,8 @@
 #define DARTMOUTH_TR 21
 #define DARTMOUTH_2WEEKS_TR 22
 #define DEBUG_TR 23
-#define LAST_ENTRY_TR 24 //this should always be the last one
+#define CUSTOM_TR 24
+#define LAST_ENTRY_TR 25 //this should always be the last one
 
 //Routing Protocols
 #define DIRECT_RT 1

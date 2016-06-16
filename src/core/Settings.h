@@ -53,6 +53,7 @@ class Settings
 {
 protected:
 	string traceDirectory;
+	string trcOriginalFilename;
 	int ContactTrace;
 	int RT;
 	int CongestionControlMechanism;
@@ -115,6 +116,7 @@ public:
 	void setSeed(int S);
 	void setResultsDirectory(string resDir);
 	void setBatchmode(bool val);
+	void setCustomTrcInfo(string trcIDname, string contactsFile, string presenceFile, int nodesNum, int actNodes, int contLines, double contDuration, double scan, string prTime, string originalFilename);
 	void lastCheck();
 
 	void setGUI(bool status){this->GUI=status;};

@@ -48,6 +48,7 @@ Settings::Settings()
 	setSeed(time(NULL));
 	setResultsDirectory("../res/");
 	setBatchmode(false);
+	trcOriginalFilename="";
 
 	this->ProfileName = "none";
 
@@ -386,6 +387,19 @@ void Settings::setContactTrace(int TRC)
 			this->processingTime="1 second";
 			break;
 		}
+		case CUSTOM_TR:
+		{
+			this->tracename.assign("custom");
+			this->contactFilename = "";
+			this->presenceFilename = "";
+			this->NN = 0;
+			this->ActiveNodes = 0;
+			this->Lines = 0;
+			this->Duration = 0.0;
+			this->scanningInterval = 0.0;
+			this->processingTime="";
+			break;
+		}
 		default:
 		{
 			printf("Error! Unknown contact trace identifier (%d)\nExiting...\n", TRC);
@@ -396,6 +410,20 @@ void Settings::setContactTrace(int TRC)
 	return;
 }
 
+void Settings::setCustomTrcInfo(string trcIDname, string contactsFile, string presenceFile, int nodesNum, int actNodes, int contLines, double contDuration, double scan, string prTime, string originalFilename)
+{
+	tracename.assign(trcIDname);
+	contactFilename.assign(contactsFile);
+	presenceFilename.assign(presenceFile);
+	NN = nodesNum;
+	ActiveNodes = actNodes;
+	Lines = contLines;
+	Duration = contDuration;
+	scanningInterval = scan;
+	processingTime.assign(prTime);
+	trcOriginalFilename.assign(originalFilename);
+	return;
+}
 
 void Settings::setRT(int Rout)
 {
@@ -834,15 +862,23 @@ void Settings::lastCheck()
 	/* Make sure that the requested contact trace has been imported */
 	if((access(contactFilename.c_str(), F_OK) != 0) || (access(presenceFilename.c_str(), F_OK) != 0))
 	{
-		printf("[Error]: The %s contact trace has not been imported in the simulator\n", tracename.c_str());
-
-		if(askToImportTrace() != 0)
+		if(ContactTrace == CUSTOM_TR)
 		{
+			printf("[Error] The \"%s\" contact trace cannot be imported in the simulator\n", tracename.c_str());
 			exit(EXIT_FAILURE);
 		}
 		else
 		{
-			printf("\n");
+			printf("[Error] The \"%s\" contact trace has not been imported in the simulator\n", tracename.c_str());
+
+			if(askToImportTrace() != 0)
+			{
+				exit(EXIT_FAILURE);
+			}
+			else
+			{
+				printf("\n");
+			}
 		}
 	}
 
@@ -922,8 +958,17 @@ void Settings::lastCheck()
 void Settings::printSettings()
 {
 	printf("Contact Trace: %s\n", this->tracename.c_str());
-	printf("Contact Filename: \"%s\" (%ld lines)\n", this->contactFilename.c_str(), this->Lines);
-	printf("Presence Filename: \"%s\"\n", this->presenceFilename.c_str());
+	if(ContactTrace == CUSTOM_TR)
+	{
+// 		printf("Contact Filename: \"%s\" (%ld lines) [extracted from %s]\n", contactFilename.c_str(), Lines, trcOriginalFilename.c_str());
+// 		printf("Presence Filename: \"%s\" [extracted from %s]\n", presenceFilename.c_str(),trcOriginalFilename.c_str());
+		printf("Contact Filename: \"%s\" (contacts: %ld lines)\n", trcOriginalFilename.c_str(), Lines);
+	}
+	else
+	{
+		printf("Contact Filename: \"%s\" (%ld lines)\n", this->contactFilename.c_str(), this->Lines);
+		printf("Presence Filename: \"%s\"\n", this->presenceFilename.c_str());
+	}
 	printf("Total Number of Nodes: %d\n", this->NN);
 	printf("Total Number of Active Nodes: %d\n", this->ActiveNodes);
 	printf("Duration: %f days\n", this->Duration / 86400.0);
