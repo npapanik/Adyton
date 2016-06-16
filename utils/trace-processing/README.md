@@ -1,10 +1,10 @@
 ####Introduction
 
-This README is a short description of how the "import-dataset.sh" script works. Initially, the script downloads the original trace file from the web (mainly from [CRAWDAD](http://crawdad.org/)). Then, it process the downloaded file in order to produce a new one that is readable by Adyton: A Network Simulator for Opportunistic Networks.
+This README is a short tutorial describing how to use the "import-dataset.sh" script. Initially, the script fetches the original trace file(s) from the web (mainly from [CRAWDAD](http://crawdad.org/)). Then, it processes the downloaded file(s) in order to make them compatible with Adyton: A Network Simulator for Opportunistic Networks.
 
 ####Requirements
 
-In order to successfully use the "import-dataset.sh" script the following tools must be installed.
+To successfully use the "import-dataset.sh" script the following tools must be installed.
 * gcc compiler
 * awk
 * bc
@@ -13,8 +13,7 @@ In order to successfully use the "import-dataset.sh" script the following tools 
 * MySQL (only for the MIT Reality trace)
 * dialog (only for -gui option)
 
-Most of the tools are pre-installed in the common linux distributions, e.g., Ubuntu.
-In order to have access in most of the original datasets you should join the CRAWDAD community. The CRAWDAD registration is free and can be completed through the [CRAWDAD registration page](http://crawdad.org/joinup.html).
+Commonly used linux distributions, e.g., Ubuntu, come with all the required tools already installed. To get access in most of the original datasets you should join the CRAWDAD community. The CRAWDAD registration is free and can be completed through the [CRAWDAD registration page](http://crawdad.org/joinup.html).
 
 ####Processing one or more traces
 
@@ -24,27 +23,29 @@ $ cd "path_to_Adyton"/utils/trace-processing/
 $ chmod +x import-dataset.sh
 $ ./import-dataset.sh <trace_name>
 ```
-To process more than one trace use the same command, but with more options.
+To process more than one trace use the same command, but using more options.
 ```
 $ ./import-dataset.sh <trace_name_1> <trace_name_2> .. <trace_name_N>
 ```
-To process all the supported traces, execute the command:
+To process all the supported traces, execute:
 ```
 $ ./import-dataset.sh -all
 ```
-To clean all temp files created during the processing, execute the command:
+To clean all temp files created during the processing, execute:
 ```
 $ ./import-dataset.sh -clean
 ```
 
 ####Running with a gui
 
-To use the gui version of the script run the command:
+Also, a gui version of the tool is available through the command:
 ```
 $ ./import-dataset.sh -gui
 ``` 
 
 ####Traces supported
+
+Currently, the "import-dataset.sh" script supports the following list of traces.
 
 ---------------------------------------------
 | trace/dataset  | Estimated Execution Time |
