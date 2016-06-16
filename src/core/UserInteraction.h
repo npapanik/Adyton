@@ -30,7 +30,6 @@
 #include <map>
 #include <fstream>
 #include <iostream>
-#include <boost/progress.hpp>
 
 #ifndef SETTINGS_H
 	#define SETTINGS_H
