@@ -5,9 +5,10 @@ Adyton is an event-driven network simulator, written in C++, for Opportunistic N
 
 Adyton was developed by [Nikolaos Papanikos](http://cse.uoi.gr/~npapanik) and [Dimitrios-Georgios Akestoridis](http://cse.uoi.gr/~dakestor) during their graduate studies in the [Department of Computer Science and Engineering at University of Ioannina, Greece](http://cse.uoi.gr) under the supervision of Prof. [Evangelos Papapetrou](http://cse.uoi.gr/~epap).
 
+For more information about installing and configuring Adyton check our [wiki](https://github.com/npapanik/Adyton/wiki).
+
 > Adyton was a restricted area within Ancient Greek temples, where oracles and priests gave their oracular responses.
 
-For more information about installing and configuring Adyton visit our [wiki](https://github.com/npapanik/Adyton/wiki). 
 
 Features
 ----------
