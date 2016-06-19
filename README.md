@@ -1,8 +1,7 @@
 Adyton
 ======
 
-Adyton is an event-driven network simulator, written in C++, for Opportunistic Networks (a.k.a. Delay-Tolerant Networks) that is capable of processing contact traces.
-The Adyton simulator supports a plethora of routing protocols and real-world contact traces, while also providing several congestion control mechanisms and buffer management policies.
+Adyton is an event-driven network simulator, written in C++, for Opportunistic Networks (a.k.a. Delay-Tolerant Networks) that is capable of processing contact traces. The Adyton simulator includes a plethora of routing protocols and real-world contact traces. It also provides several congestion control mechanisms and buffer management policies.
 
 Adyton was developed by [Nikolaos Papanikos](http://cse.uoi.gr/~npapanik) and [Dimitrios-Georgios Akestoridis](http://cse.uoi.gr/~dakestor) during their graduate studies in the [Department of Computer Science and Engineering at University of Ioannina, Greece](http://cse.uoi.gr) under the supervision of Prof. [Evangelos Papapetrou](http://cse.uoi.gr/~epap).
 
@@ -83,7 +82,7 @@ Features
 * [Vaccine](http://dx.doi.org/10.1109/TNET.2005.863461)
 * Cataclysm
 
-<a name="note1">1</a>: Note that the original traces are not directly supported by Adyton. Further processing is required for each trace in order to be compatible with Adyton. More instructions about trace processing can be found in the utils/trace-processing directory. For any questions or special requests please contact us.
+<a name="note1">1</a>: Due to copyright restrictions, most contact traces cannot be directly included in Adyton. Instead, Adyton provides automated tools for processing and downloading them from the corresponding online sources. Further details about these tools can be found in the utils/trace-processing directory. For any questions or special requests please contact us.
 
 <a name="note2">2</a>: Currently all congestion control mechanisms and some scheduling policies are supported only by single-copy routing protocols. Their use in multi-copy protocols is still experimental.
 
