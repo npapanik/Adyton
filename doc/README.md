@@ -1,1 +1,1 @@
-This directory contains the documentation files of the simulator.
+For more information about Adyton visit our [wiki pages @ github](https://github.com/npapanik/Adyton/wiki).
