@@ -1,6 +1,6 @@
 ####Introduction
 
-This README is a short tutorial describing how to use the "import-dataset.sh" script. Initially, the script fetches the original trace file(s) from the web (mainly from [CRAWDAD](http://crawdad.org/)). Then, it processes the downloaded file(s) in order to make them compatible with Adyton: A Network Simulator for Opportunistic Networks.
+This README is a short tutorial describing how to use the "caravida.sh" script. Initially, the script fetches the original trace file(s) from the web (mainly from [CRAWDAD](http://crawdad.org/)). Then, it processes the downloaded file(s) in order to make them compatible with Adyton: A Network Simulator for Opportunistic Networks.
 
 ####Requirements
 
@@ -20,32 +20,32 @@ Commonly used linux distributions, e.g., Ubuntu, come with all the required tool
 To process a particular trace file use the following commands in the linux terminal.
 ```
 $ cd "path_to_Adyton"/utils/trace-processing/
-$ chmod +x import-dataset.sh
-$ ./import-dataset.sh <trace_name>
+$ chmod +x caravida.sh
+$ ./caravida.sh <trace_name>
 ```
 To process more than one trace use the same command, but using more options.
 ```
-$ ./import-dataset.sh <trace_name_1> <trace_name_2> .. <trace_name_N>
+$ ./caravida.sh <trace_name_1> <trace_name_2> .. <trace_name_N>
 ```
 To process all the supported traces, execute:
 ```
-$ ./import-dataset.sh -all
+$ ./caravida.sh -all
 ```
 To clean all temp files created during the processing, execute:
 ```
-$ ./import-dataset.sh -clean
+$ ./caravida.sh -clean
 ```
 
 ####Running with a gui
 
 Also, a gui version of the tool is available through the command:
 ```
-$ ./import-dataset.sh -gui
+$ ./caravida.sh -gui
 ``` 
 
 ####Traces supported
 
-Currently, the "import-dataset.sh" script supports the following list of traces.
+Currently, the "caravida.sh" script supports the following list of traces.
 
 ---------------------------------------------
 | trace/dataset  | Estimated Execution Time |

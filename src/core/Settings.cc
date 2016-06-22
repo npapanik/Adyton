@@ -844,13 +844,13 @@ int Settings::askToImportTrace()
 
 	if(decision.at(0) == 'y')
 	{
-		status = system(("cd ../utils/trace-processing && chmod +x ./import-dataset.sh && ./import-dataset.sh " + tracename).c_str());
+		status = system(("cd ../utils/trace-processing && chmod +x ./caravida.sh && ./caravida.sh " + tracename).c_str());
 	}
 	else
 	{
 		printf("\nYou can import the %s contact trace any time by executing the following commands:\n", tracename.c_str());
 		printf("$ cd ../utils/trace-processing\n");
-		printf("$ ./import-dataset.sh %s\n\n", tracename.c_str());
+		printf("$ ./caravida.sh %s\n\n", tracename.c_str());
 	}
 
 	return status;

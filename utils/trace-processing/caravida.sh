@@ -282,8 +282,8 @@ delete_files() {
 	local ds=$1;
 
 	cd ${base_dir};
-	if [ ! -f "import-dataset.sh" ];then
-		echo -e "${RED}** ERROR: \"import-dataset.sh\" has not been executed from the correct path.. **${NC}";
+	if [ ! -f "caravida.sh" ];then
+		echo -e "${RED}** ERROR: \"caravida.sh\" has not been executed from the correct path.. **${NC}";
 		return;
 	fi
 	cd ${directory[${ds}]};
@@ -1012,8 +1012,8 @@ if [ "$#" == "0" ]; then
 fi
 
 base_dir=$(pwd);
-if [ ! -f "import-dataset.sh" ];then
-	echo -e "${RED}** ERROR: \"import-dataset.sh\" has not been executed from the correct path.. **${NC}";
+if [ ! -f "caravida.sh" ];then
+	echo -e "${RED}** ERROR: \"caravida.sh\" has not been executed from the correct path.. **${NC}";
 	exit 1;
 fi
 ddir="temp_data";
