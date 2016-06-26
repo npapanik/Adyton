@@ -15,5 +15,7 @@ trc/
 !trc/Debugging.txt
 !trc/Debugging-presence.txt
 
+utils/trace-processing/.carav_cr.tmp
+
 profile*.txt
 experiment.sh
