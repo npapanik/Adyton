@@ -489,8 +489,14 @@ download_crawdad_dataset() {
 
 	local trc=$1;
 
-	cd ${ddir};
+	#check if credentials are available
+	if [ -f "${cred_file}" ];then
+		reveal=$(cat ${cred_file} | base64 -d);
+		valid_user=$(echo ${reveal} | awk '{printf("%s",$1);}');
+		valid_pass=$(echo ${reveal} | awk '{printf("%s",$2);}');
+	fi
 	
+	cd ${ddir};	
 	if [ "${valid_user}" == "" ];then
 		echo -e "\n * Requirement *";
 		echo -e " In order to get the original datasets you should join the CRAWDAD community. The\n CRAWDAD registration is free and can be completed through the CRAWDAD registration \n page: <http://crawdad.org/joinup.html>. After creating a CRAWDAD account please run \n again this script and provide your credentials in order to download the datasets \n from CRAWDAD archive.\n";
@@ -513,11 +519,14 @@ download_crawdad_dataset() {
 			read user;
 			echo -ne " password: ";
 			read -s pass;
+			echo -ne "\n${BLUE} Remember credentials for future use? [y,n]: ${NC}";
+			read remember;
 			echo -e "\n";
+			
 			#get file from CRAWDAD archive usign new credentials
 			wget --quiet --user ${user} --password ${pass} ${link[${trc}]} &
 		else
-			echo " Using the same CRAWDAD credentials..";
+			echo " Using stored CRAWDAD credentials..";
 			#get file from CRAWDAD archive usign new credentials
 			wget --quiet --user ${valid_user} --password ${valid_pass} ${link[${trc}]} &
 		fi
@@ -532,6 +541,9 @@ download_crawdad_dataset() {
 			if [ "${gui}" == "off" ];then
 				valid_user="${user}";
 				valid_pass="${pass}";
+				if [ "${remember}" == "y" ];then
+					echo -e "${user}\t${pass}" | base64 > "../${cred_file}";
+				fi
 			fi
 			break;
 		else
@@ -1017,6 +1029,7 @@ if [ ! -f "caravida.sh" ];then
 	exit 1;
 fi
 ddir="temp_data";
+cred_file=".carav_cr.tmp";
 rm -rf ${ddir};
 mkdir ${ddir};
 valid_user="";
