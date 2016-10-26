@@ -37,25 +37,25 @@
 
 Enc::Enc(int ID,int NodeSize,double a,double W): Utility(ID,NodeSize)
 {
-	this->alpha=a;
-	this->Window=W;
-	this->LastUpdated=0.0;
-	this->EV=0.0;
-	this->CWC=0.0;
-	this->stage=0;
-	this->DecayEnabled=true;
+	alpha=a;
+	Window=W;
+	LastUpdated=0.0;
+	EV=0.0;
+	CWC=0.0;
+	stage=0;
+	DecayEnabled=true;
 	return;
 }
 
 Enc::Enc(int ID,int NodeSize): Utility(ID,NodeSize)
 {
-	this->alpha=0.0;
-	this->Window=0.0;
-	this->LastUpdated=0.0;
-	this->EV=0.0;
-	this->CWC=0.0;
-	this->stage=0;
-	this->DecayEnabled=false;
+	alpha=0.0;
+	Window=0.0;
+	LastUpdated=0.0;
+	EV=0.0;
+	CWC=0.0;
+	stage=0;
+	DecayEnabled=false;
 	return;
 }
 
@@ -74,11 +74,12 @@ void Enc::ContactUp(int ID, double CurrentTime)
 {
 	if(Reset(CurrentTime) && this->DecayEnabled)
 	{
-		this->EV=(this->alpha*this->CWC)+((1-this->alpha)*this->EV);
-		this->CWC=0.0;
-		this->stage++;
+		EV=(this->alpha*this->CWC)+((1-this->alpha)*this->EV);
+		CWC=0.0;
+		stage++;
+		LastUpdated=CurrentTime;
 	}
-	this->CWC++;
+	CWC++;
 }
 
 
@@ -86,11 +87,11 @@ double Enc::get(int ID,double CurrentTime)
 {
 	if(!(this->stage) || !(this->DecayEnabled))
 	{
-		return this->CWC;
+		return CWC;
 	}
 	else
 	{
-		return this->EV;
+		return EV;
 	}
 }
 
