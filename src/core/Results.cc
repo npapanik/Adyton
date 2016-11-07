@@ -71,7 +71,6 @@ void Results::writeSimulationSettings()
 {
 	char command[256];
 	char settingsFilename[256];
-	char numLines[256];
 	FILE *setFile;
 
 
@@ -88,8 +87,6 @@ void Results::writeSimulationSettings()
 			exit(EXIT_FAILURE);
 		}
 	}
-
-
 	/* If the is no file with previous simulation settings, create one */
 	sprintf(settingsFilename, "%sSimulationSettings.txt", Set->getResultsDirectory().c_str());
 
@@ -109,49 +106,29 @@ void Results::writeSimulationSettings()
 			exit(EXIT_FAILURE);
 		}
 	}
-
-
-	/* Get a unique simulation identifier */
-	sprintf(command, "wc -l < %s", settingsFilename);
-
-	if((setFile = popen(command, "r")) == NULL)
-	{
-		printf("\n[Error]: Failed to execute the command \"%s\"\n\n", command);
-		exit(EXIT_FAILURE);
-	}
-
-	if(fgets(numLines, 256, setFile) != NULL)
-	{
-		this->simID = strtoull(numLines, NULL, 10);
-	}
-	else
-	{
-		printf("\n[Error]: Failed to read the output of the command \"%s\"\n\n", command);
-		exit(EXIT_FAILURE);
-	}
-
-	if(pclose(setFile) == -1)
-	{
-		printf("\n[Error]: An error was detected while executing the command \"%s\"\n\n", command);
-		exit(EXIT_FAILURE);
-	}
-
-
 	/* Write the simulation settings */
-	if((setFile = fopen(settingsFilename, "a")) == NULL)
+	if((setFile = fopen(settingsFilename, "r+")) == NULL)
 	{
 		printf("\n[Error]: Could not open the file \"%s\"\n\n", settingsFilename);
 		exit(EXIT_FAILURE);
 	}
-
+	int nol=0;
+	int ch=0;
+	while (EOF != (ch=getc(setFile)))
+	{
+	  if (ch == '\n')
+		{
+			nol++;
+		}
+	}
+	simID=nol;
+	fseek(setFile, 0, SEEK_END);
 	fprintf(setFile, "%llu\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%f\t%d\t%d\t%ld\t%d\t%s\t%s\t%s\t%d\n", this->simID, Set->getContactTrace(), Set->getRT(), Set->getCongestionControl(), Set->getSchedulingPolicy(), Set->getDroppingPolicy(), Set->getDM(), Set->getOUT(), Set->getTrafficType(), Set->getTrafficLoad(), Set->getTTL(), Set->getBuffer(), Set->getReplicas(), Set->getSplit(), Set->getSeed(), Set->getProfileName().c_str(), Set->getResultsDirectory().c_str(), Set->getTraceDirectory().c_str(), Set->getBatchmode());
-
 	if(fclose(setFile) == EOF)
 	{
 		printf("\n[Error]: Could not close the file \"%s\"\n\n", settingsFilename);
 		exit(EXIT_FAILURE);
 	}
-
 	return;
 }
 
