@@ -25,6 +25,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define CONTACTUP 1
+#define TRANSMISSION 2
+#define CONTACTDOWN 3
+#define CHECKPOINT 4
+#define PACKETGENERATION 5
+
+
+
 /* Interface: Event 
  * ----------------
  */
@@ -110,4 +118,24 @@ public:
 	~CheckPoint(void);
 	virtual void printEvent(void);
 	int GetLine(void);
+};
+
+/* Transmission
+ * ---------
+ * This event describes a new packet arrival in the simulation. 
+ */
+class PacketGeneration:public Event
+{
+protected:
+	int pktID;
+	bool valid;
+public:
+	PacketGeneration(double Time,int S,int R,int ID);
+	~PacketGeneration(void);
+	int getSender(void){return this->NodeA;};
+	int getReceiver(void){return this->NodeB;};
+	int getpktID(void){return pktID;};
+	virtual void printEvent(void);
+	bool getState(void){return valid;};
+	void setState(bool status){this->valid=status;};
 };

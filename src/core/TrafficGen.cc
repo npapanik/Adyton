@@ -288,7 +288,7 @@ int *TrafficGen::CreateUniformTraffic(int NumPackets)
 	}
 	int Sender=0;
 	int Receiver=0;
-	Event *trans=NULL;
+	Event *genPacket=NULL;
 	double insTime=0.0;
 	double commonIn=0.0;
 	double commonOut=0.0;
@@ -338,8 +338,8 @@ int *TrafficGen::CreateUniformTraffic(int NumPackets)
 		}
 		insTime=(double)(rand()%(int)(commonOut-commonIn))+(int)commonIn;
 // 		printf("Scheduled: %d %d %f\n",Sender,Receiver,insTime);
-		trans=new Transmission(insTime,-1,Sender,Receiver);
-		this->Sim->InsertEvent(trans);
+		genPacket=new PacketGeneration(insTime,Sender,Receiver,0);
+		Sim->InsertEvent(genPacket);
 		PacketsFor[Receiver]++;
 	}
 	totalStatPkts = NumPackets-skipped;
@@ -466,11 +466,11 @@ int *TrafficGen::CreateBurstTraffic(int NumPackets)
 		for(int j=0;j<flowsize;j++)
 		{
 // 			printf("Scheduled: %d %d %f\n",Sender,Receiver,insTime);
-			trans=new Transmission(insTime+(j*7200),-1,Sender,Receiver);
+			trans=new PacketGeneration(insTime+(j*7200),Sender,Receiver,0);
 			this->Sim->InsertEvent(trans);
 			PacketsFor[Receiver]++;
 			
-			trans=new Transmission(insTime+(j*7200),-1,Receiver,Sender);
+			trans=new PacketGeneration(insTime+(j*7200),Receiver,Sender,0);
 			this->Sim->InsertEvent(trans);
 			PacketsFor[Sender]++;
 		}
@@ -543,8 +543,7 @@ int *TrafficGen::CreateSampleTraffic(int NumPackets)
 			{
 				totalStatPkts++;
 			}
-
-			trans = new Transmission(creationTime, -1, Sender, Receiver);
+			trans = new PacketGeneration(creationTime, Sender, Receiver, 0);
 			this->Sim->InsertEvent(trans);
 			PacketsFor[Receiver]++;
 		}
@@ -626,7 +625,8 @@ int *TrafficGen::CreatePredefinedTraffic()
 		}
 
 		totalStatPkts++;
-		trans = new Transmission(creationTime, -1, Sender, Receiver);
+		trans = new PacketGeneration(creationTime, Sender, Receiver, 0);
+		
 		this->Sim->InsertEvent(trans);
 		PacketsFor[Receiver]++;
 	}

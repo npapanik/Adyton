@@ -36,7 +36,7 @@
  */
 ContactUp::ContactUp(double Time,int A,int B)
 {
-	this->EventID=1;
+	this->EventID=CONTACTUP;
 	this->EventTime=Time;
 	this->NodeA=A;
 	this->NodeB=B;
@@ -72,7 +72,7 @@ void ContactUp::printEvent(void )
  */
 ContactDown::ContactDown(double Time,int A,int B)
 {
-	this->EventID=3;
+	this->EventID=CONTACTDOWN;
 	this->EventTime=Time;
 	this->NodeA=A;
 	this->NodeB=B;
@@ -107,7 +107,7 @@ void ContactDown::printEvent(void )
  */
 Transmission::Transmission(double Time,int S,int R,int ID)
 {
-	this->EventID=2;
+	this->EventID=TRANSMISSION;
 	this->EventTime=Time;
 	this->NodeA=S;
 	this->NodeB=R;
@@ -142,7 +142,7 @@ void Transmission::printEvent(void)
  */
 CheckPoint::CheckPoint(double Time, int A, int B)
 {
-	this->EventID=4;
+	this->EventID=CHECKPOINT;
 	this->EventTime=Time;
 	this->LineStopped=A;
 	this->Next=NULL;
@@ -176,4 +176,41 @@ void CheckPoint::printEvent(void )
 int CheckPoint::GetLine(void )
 {
 	return this->LineStopped;
+}
+
+
+/* Constructor:PacketGeneration
+ * ----------------------------
+ * Time: When packet is genarated
+ * S: Sender
+ * R: Receiver
+ */
+PacketGeneration::PacketGeneration(double Time,int S,int R,int ID)
+{
+	this->EventID=PACKETGENERATION;
+	this->EventTime=Time;
+	this->NodeA=S;
+	this->NodeB=R;
+	this->pktID=ID;
+	this->Next=NULL;
+	this->valid=true;
+}
+
+/* Destructor:PacketGeneration
+ * -----------------------
+ * Nothing so far!
+ */
+PacketGeneration::~PacketGeneration(void )
+{
+	return;
+}
+
+/* printEvent
+ * ----------
+ * For debugging purposes.
+ */
+void PacketGeneration::printEvent(void)
+{
+	printf("%f: a new packet with ID %d generated at %d and is destined to %d\n",this->EventTime,this->pktID,this->NodeA,this->NodeB);
+	return;
 }

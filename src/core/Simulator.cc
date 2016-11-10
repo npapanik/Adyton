@@ -152,7 +152,7 @@ void Simulator::startSimulation()
 		//Inform God about the new Simulation Time
 		this->SimGod->setSimTime(this->CurrentTime);
 		//printf("Sim Time:%f\n",this->CurrentTime);
-		if(e->getEventID() == 1)
+		if(e->getEventID() == CONTACTUP)
 		{//Contact up
 			//Check if already connected
 			bool oldstateA=this->CMap->AreConnected(((ContactUp *)e)->getNodeA(),((ContactUp *)e)->getNodeB());
@@ -170,7 +170,7 @@ void Simulator::startSimulation()
 			Current=Nodes[((ContactUp *)e)->getNodeA()];
 			Current->ConUpdate(this->CurrentTime,((ContactUp *)e)->getNodeB(),true,oldstateA);
 		}
-		else if(e->getEventID() == 3)
+		else if(e->getEventID() == CONTACTDOWN)
 		{//Contact down
 			//Inform Connection Map
 			this->CMap->UnSetConnection(((ContactDown *)e)->getNodeA(),((ContactDown *)e)->getNodeB());
@@ -185,7 +185,7 @@ void Simulator::startSimulation()
 			Current=Nodes[((ContactDown *)e)->getNodeA()];
 			Current->ConUpdate(this->CurrentTime,((ContactDown *)e)->getNodeB(),false,false);
 		}
-		else if(e->getEventID() == 2)
+		else if(e->getEventID() == TRANSMISSION)
 		{//Transmission
 			#ifdef SIMULATOR_DEBUG
 			printf("%f:Transmission event Sender:%d Receiver:%d packet id:%d\n",this->CurrentTime,((Transmission *)e)->getSender(),((Transmission *)e)->getReceiver(),((Transmission *)e)->getpktID());
@@ -205,7 +205,15 @@ void Simulator::startSimulation()
 				}
 			}
 		}
-		else
+		else if(e->getEventID() == PACKETGENERATION)
+		{
+			#ifdef SIMULATOR_DEBUG
+			printf("%f:Packet generation event Sender:%d Receiver:%d packet id:%d\n",this->CurrentTime,((Transmission *)e)->getSender(),((Transmission *)e)->getReceiver(),((Transmission *)e)->getpktID());
+			#endif
+			Current=Nodes[((PacketGeneration *)e)->getSender()];
+			Current->recvFromApp(this->CurrentTime,((PacketGeneration *)e)->getReceiver());
+		}
+		else if(e->getEventID() == CHECKPOINT)
 		{
 			#ifdef SIMULATOR_DEBUG
 			printf("Continue loading trace file into memory..\n");
@@ -214,6 +222,11 @@ void Simulator::startSimulation()
 			//SimList->PrintList();
 			//printf("---------------\n");
 			this->LoadPartialContacts();
+		}
+		else
+		{
+			printf("\nSomething went terribly wrong!Exiting..\n");
+			exit(1);
 		}
 		delete e;
 		e=SimList->GetTop();
