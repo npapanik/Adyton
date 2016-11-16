@@ -35,18 +35,36 @@ BubbleRap::BubbleRap(PacketPool* PP, MAC* mc, PacketBuffer* Bf, int NID, Statist
 	string profileAttribute;
 	InterCopyOn=false;
 	IntraCopyOn=false;
+	double familiarthreshold;
+	int kappavalue;
 
 	ranking = new CentralityApproximation(NID, Set->getNN());
 	labeling = new CommunityDetection(NID, Set->getNN());
 	
 	if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("familiarSetThreshold")) != "none")
 	{
-		labeling->setFamiliarSetThreshold(atof(profileAttribute.c_str()));
+		familiarthreshold = atof(profileAttribute.c_str());
+		
+		if(familiarthreshold <= 0.0)
+		{
+			printf("Error: Invalid familiarSetThreshold value (%f)\nExiting...", familiarthreshold);
+			exit(1);
+		}
+		
+		labeling->setFamiliarSetThreshold(familiarthreshold);
 	}
 
 	if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("kappa")) != "none")
 	{
-		labeling->setKappa(atof(profileAttribute.c_str()));
+		kappavalue = atoi(profileAttribute.c_str());
+		
+		if(kappavalue <= 0)
+		{
+			printf("Error: Invalid kappa value (%d)\nExiting...", kappavalue);
+			exit(1);
+		}		
+		
+		labeling->setKappa(kappavalue);
 	}
 	
 	if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("multi-copy")) != "none")

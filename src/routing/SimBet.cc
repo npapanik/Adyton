@@ -108,9 +108,12 @@ SimBet::SimBet(PacketPool* PP, MAC* mc, PacketBuffer* Bf, int NID, Statistics* S
 		}
 		else
 		{
-			//set as default type
-			//printf("Contact graph powered with MF contact aggregation\n");
-			this->Adja = new Adjacency(NID, Set->getNN(), 1, DensityVal);
+			if (profileAttribute == "MF"){
+				this->Adja = new Adjacency(NID, Set->getNN(), 1, DensityVal);
+			} else {
+				printf("Error: Invalid AggregationType setting\nExiting...");
+				exit(1);
+			}
 		}
 	}
 	else 

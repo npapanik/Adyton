@@ -181,11 +181,17 @@ Delegation::Delegation(PacketPool* PP, MAC* mc, PacketBuffer* Bf, int NID, Stati
 	this->UType=UtilityType;
 	if(S->ProfileExists() && (UtilityType=S->GetProfileAttribute("update")) != "none")
 	{
-		UUpdate=true;
-	}
-	else
-	{
-		UUpdate=false;
+		if (UtilityType == "on") {
+			UUpdate=true;
+		}
+		else {
+			if (UtilityType == "off") {
+				UUpdate=false;
+			} else {
+				printf("Error: Invalid update setting\nExiting...");
+				exit(1);
+			}
+		}
 	}
 	return;
 }
