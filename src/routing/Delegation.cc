@@ -112,6 +112,15 @@
 Delegation::Delegation(PacketPool* PP, MAC* mc, PacketBuffer* Bf, int NID, Statistics* St, Settings* S, God* G):Routing(PP, mc, Bf, NID, St,S,G)
 {
 	string UtilityType;
+	double DensityVal;
+	double Pinit;
+	double Pmin;
+	double Pmax;
+	double beta;
+	double gamma;
+	double delta;
+	double agingTimeUnit;	
+	string profileAttribute;
 	Util=NULL;
 	Adja=NULL;
 	MyDPT=NULL;
@@ -149,23 +158,160 @@ Delegation::Delegation(PacketPool* PP, MAC* mc, PacketBuffer* Bf, int NID, Stati
 		{
 			Util=new SPM(NID,Set->getNN());
 		}
-		else if(UtilityType == "Bet")
+		else if(UtilityType == "SimBet" || UtilityType == "SimBetTS" || UtilityType == "Sim" || UtilityType == "Bet")
 		{
-			Adja=new Adjacency(NID,Set->getNN());
-		}
-		else if(UtilityType == "Sim")
-		{
-			Adja=new Adjacency(NID,Set->getNN());
-		}
-		else if(UtilityType == "SimBet" || UtilityType == "SimBetTS")
-		{
-			Adja=new Adjacency(NID,Set->getNN());
+			if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("Density")) != "none")
+			{
+				DensityVal = atof(profileAttribute.c_str());
+
+				if(DensityVal < 0.0 || DensityVal > 1.0)
+				{
+					printf("Error: Density value must be between 0 and 1. You gave %f\nExiting\n", DensityVal);
+					exit(1);
+				}
+
+				//Create contact graph powered with contact aggregation
+				if((profileAttribute = S->GetProfileAttribute("AggregationType")) == "MR")
+				{
+					//printf("Contact graph powered with MR contact aggregation\n");
+					Adja = new Adjacency(NID, Set->getNN(), 2, DensityVal);
+				}
+				else
+				{
+					if (profileAttribute == "MF"){
+						Adja = new Adjacency(NID, Set->getNN(), 1, DensityVal);
+					} else {
+						printf("Error: Invalid AggregationType setting\nExiting...");
+						exit(1);
+					}
+				}
+			}
+			else 
+			{
+				Adja = new Adjacency(NID,Set->getNN());
+			}
 		}
 		else if(UtilityType == "Prophet")
 		{
-			//MyDPT=new DPTv2(NodeID,Set->getNN());
-			//MyDPT=new DPT(NodeID,Set->getNN());
-			MyDPT=new DPTv3(NodeID,Set->getNN());
+			if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("DPT")) != "none")
+			{
+				if(profileAttribute == "v1")
+				{
+					MyDPT = new DPTv1(NID, Set->getNN());
+				}
+				else if(profileAttribute == "v1.5")
+				{
+					MyDPT = new DPTv1point5(NID, Set->getNN());
+				}
+				else if(profileAttribute == "v2")
+				{
+					MyDPT = new DPTv2(NID, Set->getNN());
+				}
+				else if(profileAttribute == "v3")
+				{
+					MyDPT = new DPTv3(NID, Set->getNN());
+				}
+				else
+				{
+					printf("Error: Unknown version of DPT (%s)\nExiting...", profileAttribute.c_str());
+					exit(1);
+				}
+			}
+			else
+			{
+				MyDPT = new DPTv3(NID, Set->getNN());
+			}
+
+			if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("DPT_Pinit")) != "none")
+			{
+				Pinit = atof(profileAttribute.c_str());
+
+				if(Pinit < 0.0 || Pinit > 1.0)
+				{
+					printf("Error: Invalid Pinit value (%f)\nExiting...", Pinit);
+					exit(1);
+				}
+
+				MyDPT->setPinit(Pinit);
+			}
+
+			if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("DPT_Pmin")) != "none")
+			{
+				Pmin = atof(profileAttribute.c_str());
+
+				if(Pmin < 0.0 || Pmin > 1.0)
+				{
+					printf("Error: Invalid Pmin value (%f)\nExiting...", Pmin);
+					exit(1);
+				}
+
+				MyDPT->setPmin(Pmin);
+			}
+
+			if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("DPT_Pmax")) != "none")
+			{
+				Pmax = atof(profileAttribute.c_str());
+
+				if(Pmax < 0.0 || Pmax > 1.0)
+				{
+					printf("Error: Invalid Pmax value (%f)\nExiting...", Pmax);
+					exit(1);
+				}
+
+				MyDPT->setPmax(Pmax);
+			}
+
+			if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("DPT_beta")) != "none")
+			{
+				beta = atof(profileAttribute.c_str());
+
+				if(beta < 0.0 || beta > 1.0)
+				{
+					printf("Error: Invalid beta value (%f)\nExiting...", beta);
+					exit(1);
+				}
+
+				MyDPT->setBeta(beta);
+			}
+
+			if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("DPT_gamma")) != "none")
+			{
+				gamma = atof(profileAttribute.c_str());
+
+				if(gamma < 0.0 || gamma > 1.0)
+				{
+					printf("Error: Invalid gamma value (%f)\nExiting...", gamma);
+					exit(1);
+				}
+
+				MyDPT->setGamma(gamma);
+			}
+
+			if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("DPT_delta")) != "none")
+			{
+				delta = atof(profileAttribute.c_str());
+
+				if(delta < 0.0 || delta > 1.0)
+				{
+					printf("Error: Invalid delta value (%f)\nExiting...", delta);
+					exit(1);
+				}
+
+				MyDPT->setDelta(delta);
+			}
+
+			if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("DPT_agingTimeUnit")) != "none")
+			{
+				agingTimeUnit = atof(profileAttribute.c_str());
+
+				if(agingTimeUnit <= 0.0)
+				{
+					printf("Error: Invalid aging time unit value (%f)\nExiting...", agingTimeUnit);
+					exit(1);
+				}
+
+				MyDPT->setAgingTimeUnit(agingTimeUnit);
+			}
 		}
 		else
 		{
