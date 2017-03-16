@@ -532,12 +532,10 @@ int *TrafficGen::CreateSampleTraffic(int NumPackets)
 		if(presentNodes[0] > 1)
 		{
 			Sender = presentNodes[(rand() % presentNodes[0]) + 1];
-			Receiver = presentNodes[(rand() % (presentNodes[0] - 1)) + 1];
-
-			if(Sender == Receiver)
+			do
 			{
-				Receiver = presentNodes[presentNodes[0]];
-			}
+				Receiver = presentNodes[(rand() % presentNodes[0]) + 1];
+			}while(Sender == Receiver);
 			
 			if((creationTime >= this->SndPrdStart) && (creationTime <= this->SndPrdStop))
 			{
