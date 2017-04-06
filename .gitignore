@@ -15,8 +15,8 @@ trc/
 !trc/Debugging.txt
 !trc/Debugging-presence.txt
 
-Adyton/Debug/
-Adyton/Release/
+src/Debug/
+src/Release/
 
 utils/trace-processing/.carav_cr.tmp
 
