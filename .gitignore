@@ -8,7 +8,7 @@ doc/
 !doc/README.md
 res/
 !res/README.md
-src/Adyton
+Adyton
 trc/
 !trc/README.md
 !trc/check_trc.sh

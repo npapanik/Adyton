@@ -24,12 +24,12 @@
 
 #ifndef SIMULATOR_H
 	#define SIMULATOR_H
-	#include "core/Simulator.h"
+	#include "src/core/Simulator.h"
 #endif
 
 #ifndef USERINTERACTION_H
 	#define USERINTERACTION_H
-	#include "core/UserInteraction.h"
+	#include "src/core/UserInteraction.h"
 #endif
 
 

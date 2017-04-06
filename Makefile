@@ -1,13 +1,13 @@
 CC=g++
-CFLAGS=-c -g -isystem ../ext/ -Wall -O3 -std=c++11
+CFLAGS=-c -g -isystem ./ext/ -Wall -O3 -std=c++11
 
-dsPath=./data-structures
-scPath=./scheduling-policies
-dpPath=./dropping-policies
-dmPath=./deletion-mechanisms
-ccPath=./congestion-control
-rpPath=./routing
-corePath=./core
+dsPath=src/data-structures
+scPath=src/scheduling-policies
+dpPath=src/dropping-policies
+dmPath=src/deletion-mechanisms
+ccPath=src/congestion-control
+rpPath=src/routing
+corePath=src/core
 
 SOURCES_DS=$(dsPath)/Adjacency.cc $(dsPath)/DPT.cc $(dsPath)/CentralityApproximation.cc $(dsPath)/CommunityDetection.cc $(dsPath)/Utility.cc $(dsPath)/Sociability.cc $(dsPath)/Enc.cc $(dsPath)/DestEnc.cc $(dsPath)/LTS.cc $(dsPath)/AMT.cc $(dsPath)/ASP.cc $(dsPath)/AIT.cc $(dsPath)/MEED.cc $(dsPath)/Familiarity.cc $(dsPath)/Regularity.cc $(dsPath)/SPM.cc $(dsPath)/LastContact.cc $(dsPath)/Coding.cc $(dsPath)/pktDepository.cc
 

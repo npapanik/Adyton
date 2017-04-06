@@ -343,7 +343,7 @@ void UserInteraction::processCustomtrc(void)
 	string workingtrc="";
 	//Check if trace file exists
 	ifstream test1(customTrcPath);
-	ifstream test2("../trc/"+customTrcPath);
+	ifstream test2("./trc/"+customTrcPath);
 	bool modDir=false;
 	if(modifiedTrcDir)
 	{
@@ -360,14 +360,14 @@ void UserInteraction::processCustomtrc(void)
 	}
 	if(test2)
 	{
-		workingtrc.assign("../trc/"+customTrcPath);
+		workingtrc.assign("./trc/"+customTrcPath);
 	}
 	if (!test1 && !test2 && !modDir)
 	{
 		printf("\n[Error] Cannot open file \"%s\". Please make sure this trace file exists.\n",customTrcPath.c_str());
 		printf("Tried the following locations:\n");
 		printf("- \"%s\"\n",customTrcPath.c_str());
-		printf("- \"../trc/%s\"\n",customTrcPath.c_str());
+		printf("- \"./trc/%s\"\n",customTrcPath.c_str());
 		if(modifiedTrcDir)
 		{
 			printf("\t- \"%s/%s\"\n",trcDir.c_str(),customTrcPath.c_str());

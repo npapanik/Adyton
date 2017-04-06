@@ -563,7 +563,7 @@ int *TrafficGen::CreatePredefinedTraffic()
 	double creationTime;
 	char *word;
 	char line[512];
-	char input[] = "../utils/traffic-scenarios/Debugging-traffic.txt";
+	char input[] = "./utils/traffic-scenarios/Debugging-traffic.txt";
 	Event *trans;
 	FILE *filePointer;
 
