@@ -869,6 +869,11 @@ void Settings::lastCheck()
 		}
 		else
 		{
+			#ifdef _WIN32
+				printf("[Error] The \"%s\" contact trace has not been imported in the simulator\n", tracename.c_str());
+				printf("Check Wiki @ https://github.com/npapanik/Adyton/wiki for more information on importing traces to Adyton\n");
+				exit(EXIT_FAILURE);
+			#endif
 			printf("[Error] The \"%s\" contact trace has not been imported in the simulator\n", tracename.c_str());
 
 			if(askToImportTrace() != 0)
