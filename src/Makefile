@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c -g -isystem ../ext/ -isystem ../ext/google-sparsehash/ -Wall -O3 -std=c++11
+CFLAGS=-c -g -isystem ../ext/ -Wall -O3 -std=c++11
 
 dsPath=./data-structures
 scPath=./scheduling-policies

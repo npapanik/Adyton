@@ -40,8 +40,8 @@ PacketPool::PacketPool(int trafficLoad)
 	this->originalIDs = 0;
 	this->variousIDs = trafficLoad + 1;
 
-	packets.set_empty_key(-1);
-	packets.set_deleted_key(-2);
+	// packets.set_empty_key(-1);
+	// packets.set_deleted_key(-2);
 
 	return;
 }
@@ -49,8 +49,8 @@ PacketPool::PacketPool(int trafficLoad)
 
 PacketPool::~PacketPool()
 {
-	dense_hash_map<int,Packet*>::iterator it;
-
+	// dense_hash_map<int,Packet*>::iterator it;
+	unordered_map<int,Packet*>::iterator it;
 
 	for(it = packets.begin(); it != packets.end(); ++it)
 	{

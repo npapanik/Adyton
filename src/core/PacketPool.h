@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits>
-#include <google-sparsehash/google/dense_hash_map>
+#include <unordered_map>
 
 #ifndef PACKET_H
 	#define PACKET_H
@@ -35,7 +35,7 @@
 const int min_int = std::numeric_limits<int>::min();
 const int max_int = std::numeric_limits<int>::max();
 
-using google::dense_hash_map;
+using namespace std;
 
 
 /* PacketPool
@@ -49,7 +49,9 @@ private:
 	int numPkts;
 	int originalIDs;
 	int variousIDs;
-	dense_hash_map<int,Packet*> packets;
+
+	// dense_hash_map<int,Packet*> packets;
+	unordered_map<int, Packet *> packets;
 
 public:
 	PacketPool(int trafficLoad);
