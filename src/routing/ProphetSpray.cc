@@ -498,7 +498,8 @@ void ProphetSpray::ReceptionDPT(Header* hd, Packet* pkt, int PID, double Current
 		}
 	}
 	
-	int *pkts[validDests];
+	//int *pkts[validDests];
+	int **pkts = (int**)malloc(sizeof(int*)*validDests);
 	int pktsout=0;
 	int runner=0;
 	for(int j=1;j<=exchangeDests[0];j++)

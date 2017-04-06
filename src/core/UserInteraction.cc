@@ -89,7 +89,7 @@ UserInteraction::~UserInteraction()
 string remove_ws( const std::string& str )
 {
     std::string str_no_ws ;
-    for( char c : str ) if( !std::isspace(c) ) str_no_ws += c ;
+    for( char c : str ) if( !isspace(c) ) str_no_ws += c ;
     return str_no_ws ;
 }
 
@@ -1026,7 +1026,7 @@ void UserInteraction::ParseArgs(char *option, char *value)
 bool UserInteraction::isNumber(const string& s)
 {
 	std::string::const_iterator it = s.begin();
-	while (it != s.end() && std::isdigit(*it)) ++it;
+	while (it != s.end() && isdigit(*it)) ++it;
 	return !s.empty() && it == s.end();
 }
 

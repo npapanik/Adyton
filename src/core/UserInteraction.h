@@ -24,12 +24,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <math.h>
 #include <string.h>
 #include <map>
 #include <fstream>
 #include <iostream>
+
+#ifdef __linux__ 
+	#include <unistd.h>
+#elif _WIN32
+	#include <io.h>
+	#define F_OK    0 
+#endif
 
 #ifndef SETTINGS_H
 	#define SETTINGS_H

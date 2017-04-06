@@ -40,7 +40,7 @@ Settings::Settings()
 	setDM(JUSTTTL_DM);
 	setOUT(T1_OUT);
 	setTrafficType(UNIFORM_TT);
-	setTrafficLoad(10000);
+	setTrafficLoad(1000);
 	setTTL(INFINITE);
 	setBuffer(INFINITE);
 	setReplicas(1);

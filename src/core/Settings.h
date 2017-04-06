@@ -24,7 +24,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <vector>
 #include <algorithm>
 #include <string>
@@ -32,6 +31,13 @@
 #include <time.h>
 #include <iostream>
 #include <fstream>
+
+#ifdef __linux__ 
+	#include <unistd.h>
+#elif _WIN32
+	#define F_OK    0 
+	#include <io.h>
+#endif
 
 #ifndef IDENTIFICATION_H
 	#define IDENTIFICATION_H
