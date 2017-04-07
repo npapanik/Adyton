@@ -23,7 +23,7 @@ SOURCES_RP=$(rpPath)/Routing.cc $(rpPath)/Direct.cc $(rpPath)/Epidemic.cc $(rpPa
 
 SOURCES_CORE=$(corePath)/Header.cc $(corePath)/Packet.cc $(corePath)/PacketPool.cc $(corePath)/Statistics.cc $(corePath)/Connection.cc $(corePath)/ConnectionMap.cc $(corePath)/Event.cc $(corePath)/EventList.cc $(corePath)/TrafficGen.cc $(corePath)/Settings.cc $(corePath)/Results.cc $(corePath)/MAC.cc $(corePath)/God.cc $(corePath)/PacketEntry.cc $(corePath)/PacketRecord.cc $(corePath)/PacketBuffer.cc $(corePath)/Node.cc $(corePath)/Simulator.cc $(corePath)/UserInteraction.cc
 
-SOURCES_MAIN=Adyton.cc
+SOURCES_MAIN=src/Adyton.cc
 
 OBJECTS=$(SOURCES_DS:.cc=.o) $(SOURCES_SC:.cc=.o) $(SOURCES_DP:.cc=.o) $(SOURCES_DM:.cc=.o) $(SOURCES_CC:.cc=.o) $(SOURCES_RP:.cc=.o) $(SOURCES_CORE:.cc=.o) $(SOURCES_MAIN:.cc=.o)
 
@@ -46,7 +46,7 @@ clean:
 	rm -rf $(ccPath)/*.o
 	rm -rf $(rpPath)/*.o
 	rm -rf $(corePath)/*.o
-	rm -rf ./*.o
+	rm -rf src/*.o
 	rm -rf ./Adyton
 	rm -rf ./Makefile~
 	rm -rf ./*.cc~
