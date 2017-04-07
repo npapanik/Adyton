@@ -143,7 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Adyton.cc" />
+    <ClCompile Include="src\Adyton.cc" />
     <ClCompile Include="src\congestion-control\ACC.cc" />
     <ClCompile Include="src\congestion-control\AvoidOverflow.cc" />
     <ClCompile Include="src\congestion-control\BSA.cc" />

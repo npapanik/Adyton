@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Adyton.cc">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\congestion-control\ACC.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -262,6 +259,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\scheduling-policies\SchedulingPolicy.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Adyton.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
