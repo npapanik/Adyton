@@ -95,15 +95,16 @@ How to cite Adyton
 
 When you write a paper that involves the use of Adyton, we would appreciate it if you can cite our tool using the following entry.
 
-* N. Papanikos, D.-G. Akestoridis, E. Papapetrou, "Adyton: A network simulator for opportunistic networks", 2016. [Online]. Available: https://github.com/npapanik/Adyton.
+* N. Papanikos, D.-G. Akestoridis, and E. Papapetrou, "Adyton: A network simulator for opportunistic networks." [Online]. Available: <https://github.com/npapanik/Adyton>, 2018.
 
-* BibTeX entry: 
->@misc{Adyton,  
->	author = {Papanikos, Nikolaos and Akestoridis, Dimitrios-Georgios and Papapetrou, Evangelos},  
->	title = {Adyton: A Network Simulator for Opportunistic Networks},  
->	howpublished = {[Online]. Available: http://www.oppnets.com},  
->	year = {2016}  
->}
+```
+@misc{Adyton,
+    author = {Papanikos, Nikolaos and Akestoridis, Dimitrios-Georgios and Papapetrou, Evangelos},
+    title = {Adyton: A Network Simulator for Opportunistic Networks},
+    howpublished = {[Online]. Available: \url{https://github.com/npapanik/Adyton}},
+    year = {2018}
+}
+```
 
 
 Publications
