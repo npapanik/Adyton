@@ -2147,6 +2147,7 @@ void UserInteraction::printDetails(string param)
 		printf("| %-30s | %-16s | %-20s |\n","Dartmouth","21","DARTMOUTH");
 		printf("| %-30s | %-16s | %-20s |\n","Dartmouth (2 Weeks)","22","DARTMOUTH-2-WEEKS");
 		printf("| %-30s | %-16s | %-20s |\n","Debugging","23","DEBUG");
+		printf("| %-30s | %-16s | %-20s |\n","Custom","24","/path/to/custom.ady");
 		printf("+--------------------------------------------------------------------------+\n\n");
 	}
 	else if(!param.compare("-RT") || !param.compare("RT"))
