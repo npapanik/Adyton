@@ -382,12 +382,12 @@ void UserInteraction::processCustomtrc(void)
 	printf("Loading data from \"%s\".. ",workingtrc.c_str());
 	fflush(stdout);
 	
-	string contacts = tmpnam(nullptr);
-	string presence = tmpnam(nullptr);
+	string contacts = "./trc/CustomContacts";
+	string presence = "./trc/CustomPresence";
 	ofstream contactsFile;
 	ofstream presenceFile;
-	string tmpContactsName(contacts + "_" + scenario_name + "_adyton");
-	string tmpPresenceName(presence + "_" + scenario_name + "_adyton");
+	string tmpContactsName(contacts + "_" + scenario_name + "_adyton.txt");
+	string tmpPresenceName(presence + "_" + scenario_name + "_adyton.txt");
 	contactsFile.open(tmpContactsName);
 	presenceFile.open(tmpPresenceName);
 	int readNN=-1;
