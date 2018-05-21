@@ -118,8 +118,8 @@ Adyton has been used in the following publications:
 License
 -------
 
-Copyright (C) 2015, 2016  Nikolaos Papanikos, Dimitrios-Georgios Akestoridis,
-and Evangelos Papapetrou
+Copyright (C) 2015-2018  Nikolaos Papanikos,
+Dimitrios-Georgios Akestoridis, and Evangelos Papapetrou
 
 Adyton is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
