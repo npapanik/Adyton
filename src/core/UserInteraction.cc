@@ -113,9 +113,9 @@ Settings *UserInteraction::getSettings(int argc, char *argv[])
 
 		if((!details.compare("WARRANTY")) || (!details.compare("W")) || (!details.compare("-WARRANTY")) || (!details.compare("-W")))
 		{
-			if(system("cat ../COPYING | head -n 598 | tail -n 8 | more") < 0)
+			if(system("cat ./COPYING | head -n 598 | tail -n 8") < 0)
 			{
-				printf("\nAn error occured while executing the command: cat ../COPYING | head -n 598 | tail -n 8 | more\n\n");
+				printf("\nAn error occured while executing the command: cat ./COPYING | head -n 598 | tail -n 8\n\n");
 				exit(EXIT_FAILURE);
 			}
 			else
@@ -125,9 +125,9 @@ Settings *UserInteraction::getSettings(int argc, char *argv[])
 		}
 		else if((!details.compare("CONDITIONS")) || (!details.compare("C")) || (!details.compare("-CONDITIONS")) || (!details.compare("-C")))
 		{
-			if(system("cat ../COPYING | head -n 621 | tail -n 551 | more") < 0)
+			if(system("cat ./COPYING | head -n 621 | tail -n 551 | less") < 0)
 			{
-				printf("\nAn error occured while executing the command: cat ../COPYING | head -n 621 | tail -n 551 | more\n\n");
+				printf("\nAn error occured while executing the command: cat ./COPYING | head -n 621 | tail -n 551 | less\n\n");
 				exit(EXIT_FAILURE);
 			}
 			else
