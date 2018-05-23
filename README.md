@@ -95,7 +95,7 @@ How to cite Adyton
 
 When you write a paper that involves the use of Adyton, we would appreciate it if you can cite our tool using the following entry.
 
-* N. Papanikos, D.-G. Akestoridis, and E. Papapetrou, "Adyton: A network simulator for opportunistic networks." [Online]. Available: <https://github.com/npapanik/Adyton>, 2018.
+* N. Papanikos, D.-G. Akestoridis, and E. Papapetrou, "Adyton: A network simulator for opportunistic networks," [Online]. Available: <https://github.com/npapanik/Adyton>, 2018.
 
 ```
 @misc{Adyton,
@@ -110,10 +110,15 @@ When you write a paper that involves the use of Adyton, we would appreciate it i
 Publications
 ------------
 
-Adyton has been used in the following publications:
+Adyton has been used by its developers in the following publications:
 
-* D.-G. Akestoridis, N. Papanikos, and E. Papapetrou, "Exploiting Social Preferences for Congestion Control in Opportunistic Networks", in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 413-418. DOI: [10.1109/WiMOB.2014.6962204](http://dx.doi.org/10.1109/WiMOB.2014.6962204).
-* N. Papanikos, and E. Papapetrou, "Coordinating Replication Decisions in Multi-copy Routing for Opportunistic Networks", in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 8-13. DOI: [10.1109/WiMOB.2014.6962142](http://dx.doi.org/10.1109/WiMOB.2014.6962142).
+* D.-G. Akestoridis, N. Papanikos, and E. Papapetrou, "Exploiting social preferences for congestion control in opportunistic networks," in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 413-418. DOI: [10.1109/WiMOB.2014.6962204](http://dx.doi.org/10.1109/WiMOB.2014.6962204).
+* N. Papanikos and E. Papapetrou, "Coordinating replication decisions in multi-copy routing for opportunistic networks," in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 8-13. DOI: [10.1109/WiMOB.2014.6962142](http://dx.doi.org/10.1109/WiMOB.2014.6962142).
+
+Other researchers have used Adyton in the following publications:
+
+* J. Dede, A. Förster, E. Hernández-Orallo, J. Herrera-Tapia, K. Kuladinithi, V. Kuppusamy, P. Manzoni, A. bin Muslim, A. Udugama, and Z. Vatandas, "Simulating opportunistic networks: Survey and future directions," _IEEE Communications Surveys & Tutorials_, 2017. DOI: [10.1109/COMST.2017.2782182](http://dx.doi.org/10.1109/COMST.2017.2782182).
+* Y. Li and R. Bartos, "Interaction based routing algorithm for opportunistic mobile social networks," in _Proceedings of the 14th IEEE Annual Consumer Communications & Networking Conference (CCNC)_, 2017, pp. 492-497. DOI: [10.1109/CCNC.2017.7983157](http://dx.doi.org/10.1109/CCNC.2017.7983157).
 
 
 License
