@@ -14,62 +14,62 @@ Features
 ----------
 
 **Supported Contact Traces<sup>[1](#note1)</sup>**
-* [Milan PMTR](http://crawdad.org/unimi/pmtr/20081201/)
-* [MIT Reality Mining](http://crawdad.org/mit/reality/20050701/)
-* [Intel](http://crawdad.org/cambridge/haggle/20090529/)
-* [Haggle-Cam](http://crawdad.org/cambridge/haggle/20090529/)
-* [INFOCOM 2005](http://crawdad.org/cambridge/haggle/20090529/)
-* [INFOCOM 2006](http://crawdad.org/cambridge/haggle/20090529/)
-* [SASSY](http://crawdad.org/st_andrews/sassy/20110603/)
-* [SIGCOMM 2009](http://crawdad.org/thlab/sigcomm2009/20120715/)
-* [Cambridge](http://crawdad.org/upmc/content/20061117/)
-* [RollerNet](http://crawdad.org/upmc/rollernet/20090202/)
-* [Nodobo](http://crawdad.org/strath/nodobo/20110323/)
-* [UCSD](http://sysnet.ucsd.edu/wtd/)
-* [Cabspotting](http://crawdad.org/epfl/mobility/20090224/)
+* [Milan PMTR](https://crawdad.org/unimi/pmtr/20081201/)
+* [MIT Reality Mining](https://crawdad.org/mit/reality/20050701/)
+* [Intel](https://crawdad.org/cambridge/haggle/20090529/)
+* [Haggle-Cam](https://crawdad.org/cambridge/haggle/20090529/)
+* [INFOCOM 2005](https://crawdad.org/cambridge/haggle/20090529/)
+* [INFOCOM 2006](https://crawdad.org/cambridge/haggle/20090529/)
+* [SASSY](https://crawdad.org/st_andrews/sassy/20110603/)
+* [SIGCOMM 2009](https://crawdad.org/thlab/sigcomm2009/20120715/)
+* [Cambridge](https://crawdad.org/upmc/content/20061117/)
+* [RollerNet](https://crawdad.org/upmc/rollernet/20090202/)
+* [Nodobo](https://crawdad.org/strath/nodobo/20110323/)
+* [UCSD](https://www.sysnet.ucsd.edu/wtd/)
+* [Cabspotting](https://crawdad.org/epfl/mobility/20090224/)
 * [Lyon Primary School](http://www.sociopatterns.org/datasets/primary-school-temporal-network-data/)
 * [Stanford High School](http://www.salathegroup.com/guide/school_2010.html)
-* [DieselNet](http://crawdad.org/umass/diesel/20080914/)
-* [Dartmouth](http://crawdad.org/dartmouth/campus/20090909/)
+* [DieselNet](https://crawdad.org/umass/diesel/20080914/)
+* [Dartmouth](https://crawdad.org/dartmouth/campus/20090909/)
 
 **Supported Routing Protocols**
-* [Direct Delivery](http://dx.doi.org/10.1109/TNET.2007.897962)
+* [Direct Delivery](https://doi.org/10.1109/TNET.2007.897962)
 * [Epidemic Routing](http://issg.cs.duke.edu/epidemic/epidemic.pdf)
 * [PRoPHET](https://datatracker.ietf.org/doc/rfc6693/)
-* [SimBet](http://dx.doi.org/10.1145/1288107.1288113)
-* [SimBetTS](http://dx.doi.org/10.1109/TMC.2008.161)
-* [Bubble Rap](http://dx.doi.org/10.1109/TMC.2010.246)
-* [Spray and Wait](http://dx.doi.org/10.1145/1080139.1080143)
-* [LSF Spray and Wait](http://dx.doi.org/10.1109/TMC.2008.172)
-* [MSF Spray and Wait](http://dx.doi.org/10.1109/TMC.2008.172)
+* [SimBet](https://doi.org/10.1145/1288107.1288113)
+* [SimBetTS](https://doi.org/10.1109/TMC.2008.161)
+* [Bubble Rap](https://doi.org/10.1109/TMC.2010.246)
+* [Spray and Wait](https://doi.org/10.1145/1080139.1080143)
+* [LSF Spray and Wait](https://doi.org/10.1109/TMC.2008.172)
+* [MSF Spray and Wait](https://doi.org/10.1109/TMC.2008.172)
 * PRoPHET Spray and Wait
-* [LSF Spray and Focus](http://dx.doi.org/10.1109/PERCOMW.2007.108)
+* [LSF Spray and Focus](https://doi.org/10.1109/PERCOMW.2007.108)
 * Compare and Forward
 * Compare and Replicate
-* [Encounter-Based Routing](http://dx.doi.org/10.1109/INFCOM.2009.5061994)
-* [Delegation Forwarding](http://dx.doi.org/10.1145/1374618.1374653)
-* [Coordinated Delegation Forwarding](http://dx.doi.org/10.1109/WiMOB.2014.6962142)
+* [Encounter-Based Routing](https://doi.org/10.1109/INFCOM.2009.5061994)
+* [Delegation Forwarding](https://doi.org/10.1145/1374618.1374653)
+* [Coordinated Delegation Forwarding](https://doi.org/10.1109/WiMOB.2014.6962142)
 * Optimal Routing
 
 **Supported Congestion Control Mechanisms<sup>[2](#note2)</sup>**
 * Avoid Overflow
-* [Autonomous Congestion Control (ACC)](http://dx.doi.org/10.2514/6.2006-5970)
-* [FairRoute (FR)](http://dx.doi.org/10.1109/INFCOM.2009.5061993)
-* [Buffer Space Advertisements (BSA)](http://dx.doi.org/10.1007/978-3-642-21560-5_32)
-* [Context-Aware Congestion Control (CACC)](http://dx.doi.org/10.1109/MCOM.2014.6829943)
-* [Congestion Control with Adjustable Fairness (CCAF)](http://dx.doi.org/10.1109/WiMOB.2014.6962204)
+* [Autonomous Congestion Control (ACC)](https://doi.org/10.2514/6.2006-5970)
+* [FairRoute (FR)](https://doi.org/10.1109/INFCOM.2009.5061993)
+* [Buffer Space Advertisements (BSA)](https://doi.org/10.1007/978-3-642-21560-5_32)
+* [Context-Aware Congestion Control (CACC)](https://doi.org/10.1109/MCOM.2014.6829943)
+* [Congestion Control with Adjustable Fairness (CCAF)](https://doi.org/10.1109/WiMOB.2014.6962204)
 
 **Supported Scheduling Policies<sup>[2](#note2)</sup>**
-* [FIFO](http://dx.doi.org/10.1145/1409985.1409994)
-* [LIFO](http://dx.doi.org/10.1145/1409985.1409994)
-* [GRTRMax](http://dx.doi.org/10.1109/COMSWA.2006.1665196)
-* [GRTRSort](http://dx.doi.org/10.1109/COMSWA.2006.1665196)
+* [FIFO](https://doi.org/10.1145/1409985.1409994)
+* [LIFO](https://doi.org/10.1145/1409985.1409994)
+* [GRTRMax](https://doi.org/10.1109/COMSWA.2006.1665196)
+* [GRTRSort](https://doi.org/10.1109/COMSWA.2006.1665196)
 * HNUV
 
 **Supported Dropping Policies**
-* [Drop Front](http://dx.doi.org/10.1145/1409985.1409994)
-* [Drop Tail](http://dx.doi.org/10.1145/1409985.1409994)
-* [Drop Oldest](http://dx.doi.org/10.1109/ISWC.2001.962117)
+* [Drop Front](https://doi.org/10.1145/1409985.1409994)
+* [Drop Tail](https://doi.org/10.1145/1409985.1409994)
+* [Drop Oldest](https://doi.org/10.1109/ISWC.2001.962117)
 * Drop Youngest
 * Drop Front - Avoid Source Packets
 * Drop Tail - Avoid Source Packets
@@ -77,10 +77,10 @@ Features
 * Drop Youngest - Avoid Source Packets
 
 **Supported Deletion Mechanisms<sup>[3](#note3)</sup>**
-* [Just TTL](http://dx.doi.org/10.1109/TNET.2005.863461)
+* [Just TTL](https://doi.org/10.1109/TNET.2005.863461)
 * No Duplicates - Delete Replicas
 * No Duplicates - Keep Replicating
-* [Vaccine](http://dx.doi.org/10.1109/TNET.2005.863461)
+* [Vaccine](https://doi.org/10.1109/TNET.2005.863461)
 * Cataclysm
 
 <a name="note1">1</a>: Due to copyright restrictions, most contact traces cannot be directly included in Adyton. Instead, Adyton provides automated tools for processing and downloading them from the corresponding online sources. Further details about these tools can be found in the utils/trace-processing directory. For any questions or special requests please contact us.
@@ -112,13 +112,13 @@ Publications
 
 Adyton has been used by its developers in the following publications:
 
-* D.-G. Akestoridis, N. Papanikos, and E. Papapetrou, "Exploiting social preferences for congestion control in opportunistic networks," in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 413-418. DOI: [10.1109/WiMOB.2014.6962204](http://dx.doi.org/10.1109/WiMOB.2014.6962204).
-* N. Papanikos and E. Papapetrou, "Coordinating replication decisions in multi-copy routing for opportunistic networks," in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 8-13. DOI: [10.1109/WiMOB.2014.6962142](http://dx.doi.org/10.1109/WiMOB.2014.6962142).
+* D.-G. Akestoridis, N. Papanikos, and E. Papapetrou, "Exploiting social preferences for congestion control in opportunistic networks," in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 413-418. DOI: [10.1109/WiMOB.2014.6962204](https://doi.org/10.1109/WiMOB.2014.6962204).
+* N. Papanikos and E. Papapetrou, "Coordinating replication decisions in multi-copy routing for opportunistic networks," in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 8-13. DOI: [10.1109/WiMOB.2014.6962142](https://doi.org/10.1109/WiMOB.2014.6962142).
 
 Other researchers have used Adyton in the following publications:
 
-* J. Dede, A. Förster, E. Hernández-Orallo, J. Herrera-Tapia, K. Kuladinithi, V. Kuppusamy, P. Manzoni, A. bin Muslim, A. Udugama, and Z. Vatandas, "Simulating opportunistic networks: Survey and future directions," _IEEE Communications Surveys & Tutorials_, 2017. DOI: [10.1109/COMST.2017.2782182](http://dx.doi.org/10.1109/COMST.2017.2782182).
-* Y. Li and R. Bartos, "Interaction based routing algorithm for opportunistic mobile social networks," in _Proceedings of the 14th IEEE Annual Consumer Communications & Networking Conference (CCNC)_, 2017, pp. 492-497. DOI: [10.1109/CCNC.2017.7983157](http://dx.doi.org/10.1109/CCNC.2017.7983157).
+* J. Dede, A. Förster, E. Hernández-Orallo, J. Herrera-Tapia, K. Kuladinithi, V. Kuppusamy, P. Manzoni, A. bin Muslim, A. Udugama, and Z. Vatandas, "Simulating opportunistic networks: Survey and future directions," _IEEE Communications Surveys & Tutorials_, 2017. DOI: [10.1109/COMST.2017.2782182](https://doi.org/10.1109/COMST.2017.2782182).
+* Y. Li and R. Bartos, "Interaction based routing algorithm for opportunistic mobile social networks," in _Proceedings of the 14th IEEE Annual Consumer Communications & Networking Conference (CCNC)_, 2017, pp. 492-497. DOI: [10.1109/CCNC.2017.7983157](https://doi.org/10.1109/CCNC.2017.7983157).
 
 
 License
