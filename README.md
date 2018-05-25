@@ -117,7 +117,7 @@ Adyton has been used by its developers in the following publications:
 
 Other researchers have used Adyton in the following publications:
 
-* J. Dede, A. Förster, E. Hernández-Orallo, J. Herrera-Tapia, K. Kuladinithi, V. Kuppusamy, P. Manzoni, A. bin Muslim, A. Udugama, and Z. Vatandas, "Simulating opportunistic networks: Survey and future directions," _IEEE Communications Surveys & Tutorials_, 2017. DOI: [10.1109/COMST.2017.2782182](https://doi.org/10.1109/COMST.2017.2782182).
+* J. Dede, A. Förster, E. Hernández-Orallo, J. Herrera-Tapia, K. Kuladinithi, V. Kuppusamy, P. Manzoni, A. bin Muslim, A. Udugama, and Z. Vatandas, "Simulating opportunistic networks: Survey and future directions," _IEEE Communications Surveys & Tutorials_, vol. 20, no. 2, pp. 1547-1573, 2018. DOI: [10.1109/COMST.2017.2782182](https://doi.org/10.1109/COMST.2017.2782182).
 * Y. Li and R. Bartos, "Interaction based routing algorithm for opportunistic mobile social networks," in _Proceedings of the 14th IEEE Annual Consumer Communications & Networking Conference (CCNC)_, 2017, pp. 492-497. DOI: [10.1109/CCNC.2017.7983157](https://doi.org/10.1109/CCNC.2017.7983157).
 
 
