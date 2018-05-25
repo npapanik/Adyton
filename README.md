@@ -5,13 +5,37 @@ Adyton is an event-driven network simulator, written in C++, for Opportunistic N
 
 Adyton was developed by [Nikolaos Papanikos](http://cse.uoi.gr/~npapanik) and [Dimitrios-Georgios Akestoridis](http://cse.uoi.gr/~dakestor) during their graduate studies in the [Department of Computer Science and Engineering at University of Ioannina, Greece](http://cse.uoi.gr) under the supervision of Prof. [Evangelos Papapetrou](http://cse.uoi.gr/~epap).
 
-For more information about installing and configuring Adyton check our [wiki](https://github.com/npapanik/Adyton/wiki).
-
 > Adyton was a restricted area within Ancient Greek temples, where oracles and priests gave their oracular responses.
 
 
+Usage
+-----
+
+To compile Adyton from source code, just execute the following command inside the src/ directory:
+```
+$ make
+```
+
+After compiling Adyton from source code, you can use the executable file to run a simulation with the default settings with the following command:
+```
+$ ./Adyton
+```
+
+The following command displays the syntax and available simulation parameters of Adyton:
+```
+$ ./Adyton -h
+```
+
+In addition, the following command displays the available options of a parameter:
+```
+$ ./Adyton -h <parameter>
+```
+
+You can find more information about the parameterization and further customization of Adyton in the [Wiki](https://github.com/npapanik/Adyton/wiki) pages.
+
+
 Features
-----------
+--------
 
 **Supported Contact Traces<sup>[1](#note1)</sup>**
 * [Milan PMTR](https://crawdad.org/unimi/pmtr/20081201/)
