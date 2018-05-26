@@ -49,7 +49,7 @@ clean:
 	rm -rf src/*.o
 	rm -rf ./Adyton
 	rm -rf ./Makefile~
-	rm -rf ./*.cc~
+	rm -rf src/*.cc~
 	rm -rf ${dsPath}/*.cc~
 	rm -rf ${dsPath}/*.h~
 	rm -rf ${scPath}/*.cc~

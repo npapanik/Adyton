@@ -11,7 +11,7 @@ Adyton was developed by [Nikolaos Papanikos](http://cse.uoi.gr/~npapanik) and [D
 Usage
 -----
 
-To compile Adyton from source code, just execute the following command inside the src/ directory:
+To compile Adyton from source code, just execute the following command inside Adyton's directory:
 ```
 $ make
 ```
