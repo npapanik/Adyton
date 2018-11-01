@@ -27,6 +27,7 @@
 	#include "Settings.h"
 #endif
 
+#include <unistd.h>
 
 Settings::Settings()
 {

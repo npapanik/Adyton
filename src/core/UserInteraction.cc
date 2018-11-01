@@ -27,7 +27,7 @@
 	#include "UserInteraction.h"
 #endif
 
-
+#include <unistd.h>
 
 UserInteraction::UserInteraction()
 {
