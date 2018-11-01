@@ -109,4 +109,7 @@ private:
 	void ReceptionContacts(Header *hd,Packet *pkt,int PID,double CurrentTime);
 	void ReceptionRequestRSPM(Header *hd,Packet *pkt,int PID,double CurrentTime);
 	void ReceptionRSPM(Header *hd,Packet *pkt,int PID,double CurrentTime);
+	void ReceptionRequestSimBetTS(Header *hd,Packet *pkt,int PID,double CurrentTime);
+	void prepareReq(double CurrentTime,int encID, int numContents, int* req, int* reqDest);
+	void prepareReqSimBetTS(double CurrentTime,int encID, int numContents, int* req, int* reqDest);	
 };

@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Adyton.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Written by Nikolaos Papanikos.
+ *  Written by Nikolaos Papanikos and Evangelos Papapetrou.
  */
 
 
@@ -80,7 +80,7 @@ CnR::CnR(PacketPool* PP, MAC* mc, PacketBuffer* Bf, int NID, Statistics* St, Set
 		{
 			Util=new SPM(NID,Set->getNN());
 		}
-		else if(UtilityType == "Bet" || UtilityType == "Sim")
+		else if(UtilityType == "Bet" || UtilityType == "Sim" || UtilityType == "SimBet" || UtilityType == "SimBetTS")
 		{
 			if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("Density")) != "none")
 			{
@@ -438,6 +438,11 @@ void CnR::recv(double rTime, int pktID)
 			ReceptionRequest(h,p,pktID,rTime);
 			break;
 		}
+		case REQUEST_PKTS_MULTI_UTILS:
+		{	
+			ReceptionRequestSimBetTS(h,p,pktID,rTime);
+			break;
+		}		
 		case ANTIPACKET:
 		{
 			ReceptionAntipacket(h,p,pktID,rTime);
@@ -753,6 +758,35 @@ void CnR::ReceptionSummary(Header *hd,Packet *pkt,int PID,double CurrentTime)
 	}
 	req[0]=unKnown;
 	reqDest[0]=unKnown;
+		
+	if(UType == "SimBetTS" || UType == "SimBet")
+	{
+		prepareReqSimBetTS(CurrentTime,hd->GetprevHop(),numContents,req,reqDest);
+	}
+	else
+	{
+		prepareReq(CurrentTime,hd->GetprevHop(),numContents,req,reqDest);
+	}
+	//free memory
+	free(req);
+	free(reqDest);
+	#ifdef CNR_DEBUG
+	printf("%f:Node %d received a summary packet with ID:%d from %d\n",CurrentTime,this->NodeID,PID,hd->GetprevHop());
+	printf("Summary contents(%d):\n",numContents);
+	for(int i=0;i<numContents;i++)
+	{
+		printf("%d(Dest:%d) ",summary[i].PID,summary[i].Dest);
+	}
+	printf("\n");
+	#endif	
+	//Delete summary packet to free memory
+	pktPool->ErasePacket(PID);
+	return;
+}
+
+
+void CnR::prepareReq(double CurrentTime,int encID, int numContents, int* req, int* reqDest)
+{
 	double MyBet=0.0;
 	if(Adja != NULL)
 	{
@@ -789,32 +823,61 @@ void CnR::ReceptionSummary(Header *hd,Packet *pkt,int PID,double CurrentTime)
 		RList[i].Exists=false;
 		RList[i].mode=0;
 	}
-	free(req);
-	free(reqDest);
+
 	//Create a packet request as a response
 	Packet *ReqPacket=new PktUtils(CurrentTime,0);
-	Header *head=new BasicHeader(this->NodeID,hd->GetprevHop());
+	Header *head=new BasicHeader(this->NodeID,encID);
 	ReqPacket->setHeader(head);
 	ReqPacket->setContents((void *)RList);
-	((PktUtils *)ReqPacket)->setPktNum(unKnown);
+	((PktUtils *)ReqPacket)->setPktNum(req[0]);
 	//Add packet to the packet pool
 	pktPool->AddPacket(ReqPacket);
 	//Send packet to the new contact
-	Mlayer->SendPkt(CurrentTime,this->NodeID,hd->GetprevHop(),ReqPacket->getSize(),ReqPacket->getID());
-// 	printf("N%d: Req %d\n",this->NodeID,numContents);
-	#ifdef CNR_DEBUG
-	printf("%f:Node %d received a summary packet with ID:%d from %d\n",CurrentTime,this->NodeID,PID,hd->GetprevHop());
-	printf("Summary contents(%d):\n",numContents);
-	for(int i=0;i<numContents;i++)
+	Mlayer->SendPkt(CurrentTime,this->NodeID,encID,ReqPacket->getSize(),ReqPacket->getID());
+	
+	return;
+	
+}
+
+
+void CnR::prepareReqSimBetTS(double CurrentTime,int encID, int numContents, int* req, int* reqDest)
+{
+	//initialize the data structure that will form the reply
+	struct PktMultiUtil *RList=(struct PktMultiUtil *)malloc(sizeof(struct PktMultiUtil)*req[0]);
+	//for each packet set
+	for(int i=0;i<req[0];i++)
 	{
-		printf("%d(Dest:%d) ",summary[i].PID,summary[i].Dest);
+		//packet ID, whether this node owns it or not
+		RList[i].PID=req[i+1];
+		RList[i].Exists=false;
+		RList[i].mode=0;
+		double Bt=Adja->getBet();
+		double Sm=Adja->getSim(reqDest[i+1]);
+		double Freq=Adja->getFreq(reqDest[i+1]);
+		double Intim=Adja->getIntimacy(reqDest[i+1]);
+		double Rec=Adja->getRecency(reqDest[i+1],CurrentTime);
+
+		RList[i].Sim=(Sm);
+		RList[i].Bet=(Bt);
+		RList[i].Frequency=(Freq);
+		RList[i].Intimacy=(Intim);
+		RList[i].Recency=(Rec);
+
 	}
-	printf("\n");
-	#endif
-	//Delete summary packet to free memory
-	pktPool->ErasePacket(PID);
+	//Create a packet request as a response
+	Packet *ReqPacket=new PktMultiUtils(CurrentTime,0);
+	Header *head=new BasicHeader(this->NodeID,encID);
+	ReqPacket->setHeader(head);
+	ReqPacket->setContents((void *)RList);
+	((PktMultiUtils *)ReqPacket)->setPktNum(req[0]);
+	//Add packet to the packet pool
+	pktPool->AddPacket(ReqPacket);
+	//Send packet to the new contact
+	Mlayer->SendPkt(CurrentTime,this->NodeID,encID,ReqPacket->getSize(),ReqPacket->getID());
+
 	return;
 }
+
 
 void CnR::ReceptionRequest(Header *hd,Packet *pkt,int PID,double CurrentTime)
 {
@@ -954,6 +1017,130 @@ void CnR::ReceptionRequest(Header *hd,Packet *pkt,int PID,double CurrentTime)
 	return;
 }
 
+void CnR::ReceptionRequestSimBetTS(Header *hd,Packet *pkt,int PID,double CurrentTime)
+{
+	//Received packet containing pkts requested and their utilities
+	struct PktMultiUtil *RqList=(struct PktMultiUtil *)pkt->getContents();
+	int PktNum=((PktMultiUtils *)pkt)->getPktNum();
+	#ifdef CNR_DEBUG
+	printf("%f:Node %d received a request packet with ID:%d from %d\n",CurrentTime,this->NodeID,PID,hd->GetprevHop());
+	printf("Request contents(%d):\n",PktNum);
+	for(int i=0;i<PktNum;i++)
+	{
+		printf("%d(Sim:%f,Bet:%f,Freq:%f,Intimacy:%f,Recency:%f) ",RqList[i].PID,RqList[i].Sim,RqList[i].Bet,RqList[i].Frequency,RqList[i].Intimacy,RqList[i].Recency);
+	}
+	printf("\n");
+	fflush(stdout);
+	#endif
+	int *Requests=(int *)malloc(sizeof(int)*(PktNum+1));
+	double *Utils=(double *)malloc(sizeof(double)*(PktNum+1));
+	double *myUtils=(double *)malloc(sizeof(double)*(PktNum+1));
+	bool *OwnedByOther=(bool *)malloc(sizeof(bool)*(PktNum+1));
+	Requests[0]=PktNum;
+	Utils[0]=PktNum;
+	myUtils[0]=PktNum;
+	OwnedByOther[0]=false;
+	for(int i=1;i<=PktNum;i++)
+	{
+		Requests[i]=RqList[i-1].PID;
+		Utils[i]=0.0;
+		myUtils[i]=0.0;
+		OwnedByOther[i]=false;
+	}
+	
+	double mySim = 0.0;
+	double myBet = Adja->getBet();
+	double myFreq = 0.0;
+	double myIntim = 0.0;
+	double myRec = 0.0;
+	int dest=-1;
+	int total=0;
+	for(int i=1;i<=PktNum;i++)
+	{
+		dest=Buf->getPacketDest(Requests[i]);
+		if (Adja)
+		{
+			mySim = Adja->getSim(dest);
+			myFreq =  Adja->getFreq(dest);
+			myIntim = Adja->getIntimacy(dest);
+			myRec = Adja->getRecency(dest, CurrentTime);			
+			if(this->UType == "SimBet"){
+				myUtils[i] = Buf->CalculateSimBetUtility(mySim, myBet, RqList[i-1].Sim, RqList[i-1].Bet);
+				Utils[i] = Buf->CalculateSimBetUtility(RqList[i-1].Sim, RqList[i-1].Bet, mySim, myBet);
+			} else if(this->UType == "SimBetTS") {
+				myUtils[i] = Buf->CalculateSimBetTSUtility(mySim,myBet,myFreq,myIntim,myRec,RqList[i-1].Sim,RqList[i-1].Bet,RqList[i-1].Frequency,RqList[i-1].Intimacy,RqList[i-1].Recency);
+				Utils[i] = Buf->CalculateSimBetTSUtility(RqList[i-1].Sim,RqList[i-1].Bet,RqList[i-1].Frequency,RqList[i-1].Intimacy,RqList[i-1].Recency,mySim,myBet,myFreq,myIntim,myRec);
+			}
+		}
+		if(Utils[i] - myUtils[i] > DBL_EPSILON)
+		{
+			total++;
+		}
+	}
+	
+	int *BetterFw=(int *)malloc(sizeof(int)*(total+1));
+	BetterFw[0]=total;
+	int runner=0;
+	for(int i=1;i<=PktNum;i++)
+	{
+		if(Utils[i] - myUtils[i] > DBL_EPSILON)
+		{
+			runner++;
+			BetterFw[runner]=Requests[i];
+		}
+	}
+	#ifdef CNR_DEBUG
+	printf("Node %d will send the following packets (%d)\n",this->NodeID,BetterFw[0]);
+	for(int i=1;i<=BetterFw[0];i++)
+	{
+		printf("%d(D:%d) ",BetterFw[i],Buf->getPacketDest(BetterFw[i]));
+	}
+	printf("\n");
+	#endif
+// 	printf("N%d:%d\n",this->NodeID,BetterFw[0]);
+	
+	for(int i=1;i<=BetterFw[0];i++)
+	{
+		sch->addPacket(BetterFw[i],NULL);
+	}
+	free(BetterFw);
+	//Apply scheduling
+	int *outgoing=sch->getOutgoingPackets();
+	//Apply congestion control
+	outgoing=CC->filterPackets(outgoing);
+	//Send packets
+	if(outgoing)
+	{
+		for(int i=1;i<=outgoing[0];i++)
+		{
+			SendPacket(CurrentTime,outgoing[i],hd->GetprevHop(),1);
+			if(Set->isSingleCopy())
+			{
+				Buf->removePkt(outgoing[i]);
+			}
+		}
+		free(outgoing);
+	}
+	#ifdef CNR_DEBUG
+	printf("%f:Node %d received a request packet with ID:%d from %d\n",CurrentTime,this->NodeID,PID,hd->GetprevHop());
+	printf("Request contents(%d):\n",PktNum);
+	for(int i=0;i<PktNum;i++)
+	{
+		printf("%d(Util:%f) ",RqList[i].PID,Utils[i+1]);
+	}
+	printf("\n");
+	#endif
+	//free memory
+	free(Requests);
+	free(Utils);
+	free(myUtils);
+	free(OwnedByOther);
+	pktPool->ErasePacket(PID);
+	return;		
+}
+
+
+
 void CnR::ReceptionData(Header *hd,Packet *pkt,int PID,double CurrentTime,int RealID)
 {
 	//Data packet
@@ -963,23 +1150,40 @@ void CnR::ReceptionData(Header *hd,Packet *pkt,int PID,double CurrentTime,int Re
 	//case I am the packet originator (packet comes from application layer)
 	if(hd->GetSource() == this->NodeID && hd->GetNextHop() == -1)
 	{
-		Buf->addPkt(RealID,hd->GetDestination(),hd->GetSource(),CurrentTime,hd->GetHops(),hd->GetprevHop(),pkt->GetStartTime());
-		if(Adja != NULL)
+		if(this->UType == "SimBetTS" || this->UType == "SimBet")
 		{
-			if(this->UType == "Bet")
-			{
-				double MyBet=Adja->getBet();
-				(Buf->getPacketData(RealID))->SetMaxUtil(MyBet);
-			}
-			else
-			{
-				double MySim=Adja->getSim(hd->GetDestination());
-				(Buf->getPacketData(RealID))->SetMaxUtil(MySim);
-			}
+			struct SimBetTSmetrics *U=(struct SimBetTSmetrics *)malloc(sizeof(struct SimBetTSmetrics));
+			U->Similarity=Adja->getSim(hd->GetDestination());
+			U->Betweenness=Adja->getBet();
+			U->Frequency=Adja->getFreq(hd->GetDestination());
+			U->Intimacy=Adja->getIntimacy(hd->GetDestination());
+			U->Recency=Adja->getRecency(hd->GetDestination(),CurrentTime);
+			Buf->addPkt(RealID,hd->GetDestination(),hd->GetSource(),CurrentTime,hd->GetHops(),hd->GetprevHop(),pkt->GetStartTime(),U);
 		}
-		if(Util != NULL)
+		else
 		{
-			(Buf->getPacketData(RealID))->SetMaxUtil(Util->get(hd->GetDestination(),CurrentTime));
+			Buf->addPkt(RealID,hd->GetDestination(),hd->GetSource(),CurrentTime,hd->GetHops(),hd->GetprevHop(),pkt->GetStartTime());
+			if(MyDPT && this->UType == "Prophet")
+			{
+				double util=MyDPT->getDPto(hd->GetDestination(),CurrentTime);
+				(Buf->getPacketData(RealID))->SetMaxUtil(util);
+			} else if(Adja != NULL)
+			{
+				if(this->UType == "Bet")
+				{
+					double MyBet=Adja->getBet();
+					(Buf->getPacketData(RealID))->SetMaxUtil(MyBet);
+				}
+				else
+				{
+					double MySim=Adja->getSim(hd->GetDestination());
+					(Buf->getPacketData(RealID))->SetMaxUtil(MySim);
+				}
+			}
+			if(Util != NULL)
+			{
+				(Buf->getPacketData(RealID))->SetMaxUtil(Util->get(hd->GetDestination(),CurrentTime));
+			}
 		}
 		Stat->pktGen(RealID, hd->GetSource(), hd->GetDestination(), CurrentTime);
 		return;
@@ -1022,22 +1226,45 @@ void CnR::ReceptionData(Header *hd,Packet *pkt,int PID,double CurrentTime,int Re
 	}
 	else
 	{
-		Buf->addPkt(RealID,hd->GetDestination(),hd->GetSource(),CurrentTime,hd->GetHops(),hd->GetprevHop(),pkt->GetStartTime());
-		Stat->incTimesAsRelayNode(pkt->GetStartTime());
-		if(Adja != NULL)
+		if(this->UType == "SimBetTS" || this->UType == "SimBet")
 		{
-			if(this->UType == "Bet")
-			{
-				(Buf->getPacketData(RealID))->SetMaxUtil(Adja->getBet());
-			}
-			else
-			{
-				(Buf->getPacketData(RealID))->SetMaxUtil(Adja->getSim(hd->GetDestination()));
-			}
+			double localSim=Adja->getSim(hd->GetDestination());
+			double localBet=Adja->getBet();
+			double localFreq=Adja->getFreq(hd->GetDestination());
+			double localIntim=Adja->getIntimacy(hd->GetDestination());
+			double localRec=Adja->getRecency(hd->GetDestination(),CurrentTime);
+			struct SimBetTSmetrics *U=(struct SimBetTSmetrics *)malloc(sizeof(struct SimBetTSmetrics));
+			U->Similarity=localSim;
+			U->Betweenness=localBet;
+			U->Frequency=localFreq;
+			U->Intimacy=localIntim;
+			U->Recency=localRec;
+			//add packet to the buffer
+			Buf->addPkt(RealID,hd->GetDestination(),hd->GetSource(),CurrentTime,hd->GetHops(),hd->GetprevHop(),pkt->GetStartTime(),U);
+			Stat->incTimesAsRelayNode(pkt->GetStartTime());
 		}
-		if(Util != NULL)
+		else
 		{
-			(Buf->getPacketData(RealID))->SetMaxUtil(Util->get(hd->GetDestination(),CurrentTime));
+			Buf->addPkt(RealID,hd->GetDestination(),hd->GetSource(),CurrentTime,hd->GetHops(),hd->GetprevHop(),pkt->GetStartTime());
+			Stat->incTimesAsRelayNode(pkt->GetStartTime());
+			if(MyDPT && this->UType == "Prophet")
+			{
+				(Buf->getPacketData(RealID))->SetMaxUtil(MyDPT->getDPto(hd->GetDestination(),CurrentTime));
+			} else if(Adja)
+			{
+				if(this->UType == "Bet")
+				{
+					(Buf->getPacketData(RealID))->SetMaxUtil(Adja->getBet());
+				}
+				else if(this->UType == "Sim")
+				{
+					(Buf->getPacketData(RealID))->SetMaxUtil(Adja->getSim(hd->GetDestination()));
+				}
+			}
+			if(Util != NULL)
+			{
+				(Buf->getPacketData(RealID))->SetMaxUtil(Util->get(hd->GetDestination(),CurrentTime));
+			}
 		}
 	}
 	if(pkt->AccessPkt() == false)
