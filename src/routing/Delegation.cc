@@ -843,22 +843,13 @@ void Delegation::prepareReqSimBetTS(double CurrentTime,int encID, int numContent
 		double Freq=Adja->getFreq(reqDest[i]);
 		double Intim=Adja->getIntimacy(reqDest[i]);
 		double Rec=Adja->getRecency(reqDest[i],CurrentTime);
-		if(haveIt[i])
-		{
-			RList[i].Sim=(Buf->getPacketData(req[i]))->GetMaxUtil("Sim");
-			RList[i].Bet=(Buf->getPacketData(req[i]))->GetMaxUtil("Bet");
-			RList[i].Frequency=(Buf->getPacketData(req[i]))->GetMaxUtil("Freq");
-			RList[i].Intimacy=(Buf->getPacketData(req[i]))->GetMaxUtil("Intimacy");
-			RList[i].Recency=(Buf->getPacketData(req[i]))->GetMaxUtil("Recency");
-		}
-		else
-		{
-			RList[i].Sim=(Sm);
-			RList[i].Bet=(Bt);
-			RList[i].Frequency=(Freq);
-			RList[i].Intimacy=(Intim);
-			RList[i].Recency=(Rec);
-		}
+
+		RList[i].Sim=(Sm);
+		RList[i].Bet=(Bt);
+		RList[i].Frequency=(Freq);
+		RList[i].Intimacy=(Intim);
+		RList[i].Recency=(Rec);
+
 	}
 	//Create a packet request as a response
 	Packet *ReqPacket=new PktMultiUtils(CurrentTime,0);
