@@ -1180,7 +1180,7 @@ void CnR::ReceptionData(Header *hd,Packet *pkt,int PID,double CurrentTime,int Re
 					(Buf->getPacketData(RealID))->SetMaxUtil(MySim);
 				}
 			}
-			if(Util != NULL)
+			else
 			{
 				(Buf->getPacketData(RealID))->SetMaxUtil(Util->get(hd->GetDestination(),CurrentTime));
 			}
@@ -1261,7 +1261,7 @@ void CnR::ReceptionData(Header *hd,Packet *pkt,int PID,double CurrentTime,int Re
 					(Buf->getPacketData(RealID))->SetMaxUtil(Adja->getSim(hd->GetDestination()));
 				}
 			}
-			if(Util != NULL)
+			else
 			{
 				(Buf->getPacketData(RealID))->SetMaxUtil(Util->get(hd->GetDestination(),CurrentTime));
 			}
