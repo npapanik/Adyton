@@ -141,6 +141,7 @@ public:
 	unsigned int getNumPacketDrops(double startTime, double endTime);
 	double CalculateSimBetTSUtility(double SimA, double BetA, double FreqA, double IntimacyA, double RecencyA,double SimB, double BetB, double FreqB, double IntimacyB, double RecencyB);
 	double CalculateSimBetUtility(double SimA, double BetA,double SimB, double BetB);
+	void UpdateThresholdSimBet(struct SimBetTSmetrics *localMetrics);
 	void UpdateThresholdSimBetTS(struct SimBetTSmetrics *localMetrics);
 
 	//methods that apply only to encoded packets

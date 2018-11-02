@@ -2235,9 +2235,6 @@ PktsWon* PacketBuffer::getPacketsLowUtilSimBet(int numReceived, PktMultiUtil* re
 					better=true;
 					(*it)->UpdateMaxUtil("Sim",receivedPkts[i].Sim);
 					(*it)->UpdateMaxUtil("Bet",receivedPkts[i].Bet);
-					(*it)->UpdateMaxUtil("Freq",receivedPkts[i].Frequency);
-					(*it)->UpdateMaxUtil("Intimacy",receivedPkts[i].Intimacy);
-					(*it)->UpdateMaxUtil("Recency",receivedPkts[i].Recency);
 				}
 				if(!(receivedPkts[i].Exists))
 				{
@@ -2478,6 +2475,42 @@ void PacketBuffer::UpdateThresholdDI(double Util)
 		if(Util - (*it)->GetMaxUtil() > DBL_EPSILON)
 		{
 			(*it)->SetMaxUtil(Util);
+		}
+	}
+	return;
+}
+
+/* UpdateThresholdSimBet
+ * -----------------------
+ * Updates the stored SimBet utility value. Note that the update is made only if the SimBet
+ * utility value given as input (Util) is larger than the stored one.
+ */
+void PacketBuffer::UpdateThresholdSimBet(SimBetTSmetrics* localMetrics)
+{
+	double perceivedSim=0.0;
+	double perceivedBet=0.0;
+	double perceivedUtil=0.0;
+	double localSim=0.0;
+	double localBet=0.0;
+	double localUtil=0.0;
+	list<PacketEntry*>::iterator it;
+	/* Delete the outdated packets because of the TTL value */
+	DropDeadPackets();
+	for(it = Entries.begin(); it != Entries.end(); ++it)
+	{
+		perceivedSim=(*it)->GetMaxUtil("Sim");
+		perceivedBet=(*it)->GetMaxUtil("Bet");
+		
+		localSim=localMetrics[(*it)->Destination].Similarity;
+		localBet=localMetrics[(*it)->Destination].Betweenness;
+		
+		perceivedUtil=CalculateSimBetUtility(perceivedSim,perceivedBet,localSim,localBet);
+		localUtil=CalculateSimBetUtility(localSim,localBet,perceivedSim,perceivedBet);
+		
+		if(localUtil - perceivedUtil > DBL_EPSILON)
+		{
+			(*it)->UpdateMaxUtil("Sim",localSim);
+			(*it)->UpdateMaxUtil("Bet",localBet);
 		}
 	}
 	return;

@@ -474,7 +474,13 @@ void Delegation::ContactRemoved(double CTime,int NID)
 				localMetrics[i].Intimacy=Adja->getIntimacy(i);
 				localMetrics[i].Recency=Adja->getRecency(i,CTime);
 			}
-			Buf->UpdateThresholdSimBetTS(localMetrics);
+			if(UType == "SimBetTS")
+			{
+				Buf->UpdateThresholdSimBetTS(localMetrics);
+			} else
+			{
+				Buf->UpdateThresholdSimBet(localMetrics);
+			}
 			free(localMetrics);
 		}
 		else
