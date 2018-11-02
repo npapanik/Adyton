@@ -534,7 +534,7 @@ void Settings::setRT(int Rout)
 			{
 				//remove all whitespaces
 				UtilityType.erase( std::remove_if( UtilityType.begin(), UtilityType.end(), ::isspace ), UtilityType.end() );
-				if(UtilityType == "LTS" || UtilityType == "DestEnc" || UtilityType == "Enc" || UtilityType == "AMT" || UtilityType == "AIT" || UtilityType == "SPM" || UtilityType == "Bet" || UtilityType == "Sim" || UtilityType == "LastContact" || UtilityType == "Prophet")
+				if(UtilityType == "LTS" || UtilityType == "DestEnc" || UtilityType == "Enc" || UtilityType == "AMT" || UtilityType == "AIT" || UtilityType == "SPM" || UtilityType == "Bet" || UtilityType == "Sim" || UtilityType == "LastContact" || UtilityType == "Prophet" || UtilityType == "SimBet" || UtilityType == "SimBetTS")
 				{
 					this->RTname.assign("CnR." + UtilityType);
 				}
