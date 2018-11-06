@@ -457,7 +457,7 @@ void Delegation::ContactRemoved(double CTime,int NID)
 			double *Sims=(double *)malloc(sizeof(double)*NN);
 			for(int i=0;i<NN;i++)
 			{
-				Sims[i]=Adja->getSim(NID);
+				Sims[i]=Adja->getSim(i);
 			}
 			Buf->UpdateThresholdDD(Sims);
 			free(Sims);
