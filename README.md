@@ -137,6 +137,7 @@ Publications
 Adyton has been used by its developers in the following publications:
 
 * D.-G. Akestoridis and E. Papapetrou, "A framework for the evaluation of routing protocols in opportunistic networks," _Computer Communications_, vol. 145, pp. 14-28, 2019. DOI: [10.1016/j.comcom.2019.06.003](https://doi.org/10.1016/j.comcom.2019.06.003).
+* E. Papapetrou and A. Likas, "Cluster-based Replication: a Forwarding Strategy for Mobile Opportunistic Networks, IEEE International Symposium on a World of Wireless Mobile and Multimedia Networks (WoWMoM’18), 12-15 June, Chania, Greece. DOI:10.1109/wowmom.2018.8449818 (https://doi.org/10.1109/wowmom.2018.8449818)
 * D.-G. Akestoridis, N. Papanikos, and E. Papapetrou, "Exploiting social preferences for congestion control in opportunistic networks," in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 413-418. DOI: [10.1109/WiMOB.2014.6962204](https://doi.org/10.1109/WiMOB.2014.6962204).
 * N. Papanikos and E. Papapetrou, "Coordinating replication decisions in multi-copy routing for opportunistic networks," in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 8-13. DOI: [10.1109/WiMOB.2014.6962142](https://doi.org/10.1109/WiMOB.2014.6962142).
 
