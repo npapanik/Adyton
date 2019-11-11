@@ -73,7 +73,7 @@ Features
 * [Encounter-Based Routing](https://doi.org/10.1109/INFCOM.2009.5061994)
 * [Delegation Forwarding](https://doi.org/10.1145/1374618.1374653)
 * [Coordinated Delegation Forwarding](https://doi.org/10.1109/WiMOB.2014.6962142)
-* Optimal Routing
+* [Optimal Routing](https://doi.org/10.1016/j.comcom.2019.06.003)
 
 **Supported Congestion Control Mechanisms<sup>[2](#note2)</sup>**
 * Avoid Overflow
@@ -136,6 +136,7 @@ Publications
 
 Adyton has been used by its developers in the following publications:
 
+* D.-G. Akestoridis and E. Papapetrou, "A framework for the evaluation of routing protocols in opportunistic networks," _Computer Communications_, vol. 145, pp. 14-28, 2019. DOI: [10.1016/j.comcom.2019.06.003](https://doi.org/10.1016/j.comcom.2019.06.003).
 * D.-G. Akestoridis, N. Papanikos, and E. Papapetrou, "Exploiting social preferences for congestion control in opportunistic networks," in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 413-418. DOI: [10.1109/WiMOB.2014.6962204](https://doi.org/10.1109/WiMOB.2014.6962204).
 * N. Papanikos and E. Papapetrou, "Coordinating replication decisions in multi-copy routing for opportunistic networks," in _Proceedings of the 10th IEEE International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)_, 2014, pp. 8-13. DOI: [10.1109/WiMOB.2014.6962142](https://doi.org/10.1109/WiMOB.2014.6962142).
 
