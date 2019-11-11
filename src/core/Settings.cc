@@ -475,6 +475,10 @@ void Settings::setRT(int Rout)
 				{
 					suffix += ".familiarSetThreshold" + profileAttribute;
 				}
+				if((profileAttribute = this->GetProfileAttribute("multi-copy")) != "none")
+				{
+					this->copyMode = false;
+				}				
 			}
 
 			this->RTname.assign("BubbleRap" + suffix);
