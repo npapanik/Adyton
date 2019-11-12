@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Adyton.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Written by Nikolaos Papanikos and Dimitrios-Georgios Akestoridis.
+ *  Written by Nikolaos Papanikos, Dimitrios-Georgios Akestoridis and Evangelos Papapetrou.
  */
 
 
@@ -553,6 +553,28 @@ void Settings::setRT(int Rout)
 			}
 			break;
 		}
+		case CBRCNR_RT:
+		{
+			string UtilityType;
+			if(this->ProfileExists() && (UtilityType=this->GetProfileAttribute("Utility")) != "none")
+			{
+				//remove all whitespaces
+				UtilityType.erase( std::remove_if( UtilityType.begin(), UtilityType.end(), ::isspace ), UtilityType.end() );
+				if(UtilityType == "LTS" || UtilityType == "DestEnc" || UtilityType == "Enc" || UtilityType == "AMT" || UtilityType == "AIT" || UtilityType == "SPM" || UtilityType == "Bet" || UtilityType == "Sim" || UtilityType == "LastContact" || UtilityType == "Prophet" || UtilityType == "SimBet" || UtilityType == "SimBetTS")
+				{
+					this->RTname.assign("CbR-CnR." + UtilityType);
+				}
+				else
+				{
+					this->RTname.assign("CbR-CnR.LTS");
+				}
+			}
+			else
+			{
+				this->RTname.assign("CbR-CnR.LTS");
+			}
+			break;
+		}
 		case EBR_RT:
 		{
 			this->RTname.assign("EBR");
@@ -580,6 +602,28 @@ void Settings::setRT(int Rout)
 			}
 			break;
 		}
+		case CBRDF_RT:
+		{
+			string UtilityType;
+			if(this->ProfileExists() && (UtilityType=this->GetProfileAttribute("Utility")) != "none")
+			{
+				//remove all whitespaces
+				UtilityType.erase( std::remove_if( UtilityType.begin(), UtilityType.end(), ::isspace ), UtilityType.end() );
+				if(UtilityType == "LTS" || UtilityType == "DestEnc" || UtilityType == "Enc" || UtilityType == "AMT" || UtilityType == "AIT" || UtilityType == "SPM" || UtilityType == "Bet" || UtilityType == "Sim" || UtilityType == "SimBet" || UtilityType == "Prophet" || UtilityType == "LastContact" || UtilityType == "SimBetTS")
+				{
+					this->RTname.assign("CbR-DF." + UtilityType);
+				}
+				else
+				{
+					this->RTname.assign("CbR-DF.LTS");
+				}
+			}
+			else
+			{
+				this->RTname.assign("CbR-DF.LTS");
+			}
+			break;
+		}
 		case COORD_RT:
 		{
 			string UtilityType;
@@ -599,6 +643,28 @@ void Settings::setRT(int Rout)
 			else
 			{
 				this->RTname.assign("COORD.LTS");
+			}
+			break;
+		}
+		case CBRCOORD_RT:
+		{
+			string UtilityType;
+			if(this->ProfileExists() && (UtilityType=this->GetProfileAttribute("Utility")) != "none")
+			{
+				//remove all whitespaces
+				UtilityType.erase( std::remove_if( UtilityType.begin(), UtilityType.end(), ::isspace ), UtilityType.end() );
+				if(UtilityType == "LTS" || UtilityType == "DestEnc" || UtilityType == "Enc" || UtilityType == "AMT" || UtilityType == "AIT" || UtilityType == "SPM" || UtilityType == "Bet" || UtilityType == "Sim" ||  UtilityType == "SimBet" || UtilityType == "Prophet" || UtilityType == "LastContact" || UtilityType == "Effi" || UtilityType == "SimBetTS")
+				{
+					this->RTname.assign("CbR-COORD." + UtilityType);
+				}
+				else
+				{
+					this->RTname.assign("CbR-COORD.LTS");
+				}
+			}
+			else
+			{
+				this->RTname.assign("CbR-COORD.LTS");
 			}
 			break;
 		}
@@ -1343,6 +1409,10 @@ bool Settings::isSingleCopy(void)
 		{
 			return false;
 		}
+		case CBRCNR_RT:
+		{
+			return false;
+		}
 		case EBR_RT:
 		{
 			return false;
@@ -1351,7 +1421,15 @@ bool Settings::isSingleCopy(void)
 		{
 			return false;
 		}
+		case CBRDF_RT:
+		{
+			return false;
+		}
 		case COORD_RT:
+		{
+			return false;
+		}
+		case CBRCOORD_RT:
 		{
 			return false;
 		}
@@ -1428,6 +1506,10 @@ bool Settings::usesLimitedReplication(void)
 		{
 			return false;
 		}
+		case CBRCNR_RT:
+		{
+			return false;
+		}
 		case EBR_RT:
 		{
 			return true;
@@ -1436,7 +1518,19 @@ bool Settings::usesLimitedReplication(void)
 		{
 			return false;
 		}
+		case CBRDF_RT:
+		{
+			return false;
+		}
 		case COORD_RT:
+		{
+			if(this->Replicas == 1)
+			{
+				return false;
+			}
+			return true;
+		}
+		case CBRCOORD_RT:
 		{
 			if(this->Replicas == 1)
 			{
