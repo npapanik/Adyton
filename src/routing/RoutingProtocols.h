@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Adyton.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Written by Nikolaos Papanikos and Dimitrios-Georgios Akestoridis.
+ *  Written by Nikolaos Papanikos, Dimitrios-Georgios Akestoridis and Evangelos Papapetrou.
  */
 
 
@@ -87,6 +87,11 @@
 	#include "CnR.h"
 #endif
 
+/*#ifndef CBRCNR_H
+	#define CBRCNR_H
+	#include "CbR-CnR.h"
+#endif*/
+
 #ifndef EBR_H
 	#define EBR_H
 	#include "EBR.h"
@@ -96,6 +101,21 @@
 	#define DELEGATION_H
 	#include "Delegation.h"
 #endif
+
+/*#ifndef CBRDF_H
+	#define CBRDF_H
+	#include "CbR-DF.h"
+#endif
+
+#ifndef COORD_H
+	#define COORD_H
+	#include "COORD.h"
+#endif
+
+#ifndef CBRCOORD_H
+	#define CBRCOORD_H
+	#include "CbR-COORD.h"
+#endif*/
 
 #ifndef OPTIMAL_H
 	#define OPTIMAL_H

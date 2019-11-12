@@ -141,6 +141,13 @@ Node::Node(int NodeID, PacketPool *pktPool, MAC *mlayer, Statistics *St, Setting
 			this->RLogic = new CnR(this->Pool, this->macLayer, this->Buffer, this->ID, this->Stat, this->SimSet, this->Gd);
 			break;
 		}
+		case CBRCNR_RT:
+		{
+			//this->RLogic = new CbRCnR(this->Pool, this->macLayer, this->Buffer, this->ID, this->Stat, this->SimSet, this->Gd);
+			printf("\n[Error]: The CbR-CnR routing protocol is temporarily not available\n\n");
+			exit(EXIT_FAILURE);			
+			break;
+		}
 		case EBR_RT:
 		{
 			this->RLogic = new EBR(this->Pool, this->macLayer, this->Buffer, this->ID, this->Stat, this->SimSet, this->Gd);
@@ -151,11 +158,25 @@ Node::Node(int NodeID, PacketPool *pktPool, MAC *mlayer, Statistics *St, Setting
 			this->RLogic = new Delegation(this->Pool, this->macLayer, this->Buffer, this->ID, this->Stat, this->SimSet, this->Gd);
 			break;
 		}
+		case CBRDF_RT:
+		{
+			//this->RLogic = new CbRDF(this->Pool, this->macLayer, this->Buffer, this->ID, this->Stat, this->SimSet, this->Gd);
+			printf("\n[Error]: The CbR-DF routing protocol is temporarily not available\n\n");
+			exit(EXIT_FAILURE);			
+			break;
+		}
 		case COORD_RT:
 		{
 			//this->RLogic = new COORDE(this->Pool, this->macLayer, this->Buffer, this->ID, this->Stat, this->SimSet, this->Gd);
 			printf("\n[Error]: The COORD routing protocol is temporarily not available\n\n");
 			exit(EXIT_FAILURE);
+			break;
+		}
+		case CBRCOORD_RT:
+		{
+			//this->RLogic = new CbRCOORDE(this->Pool, this->macLayer, this->Buffer, this->ID, this->Stat, this->SimSet, this->Gd);
+			printf("\n[Error]: The CbR-COORD routing protocol is temporarily not available\n\n");
+			exit(EXIT_FAILURE);			
 			break;
 		}
 		case OPTIMAL_RT:

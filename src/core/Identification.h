@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Adyton.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Written by Nikolaos Papanikos and Dimitrios-Georgios Akestoridis.
+ *  Written by Nikolaos Papanikos, Dimitrios-Georgios Akestoridis and Evangelos Papapetrou.
  */
 
 
@@ -75,7 +75,10 @@
 #define DELEGATION_RT 15
 #define COORD_RT 16
 #define OPTIMAL_RT 17
-#define LAST_ENTRY_RT 18 //this should always be the last one
+#define CBRCNR_RT 18
+#define CBRDF_RT 19
+#define CBRCOORD_RT 20
+#define LAST_ENTRY_RT 21 //this should always be the last one
 
 //Congestion Control Mechanisms
 #define NOCC_CC 1

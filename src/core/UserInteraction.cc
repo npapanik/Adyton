@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Adyton.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Written by Nikolaos Papanikos and Dimitrios-Georgios Akestoridis.
+ *  Written by Nikolaos Papanikos, Dimitrios-Georgios Akestoridis and Evangelos Papapetrou.
  */
 
 
@@ -1791,6 +1791,10 @@ void UserInteraction::initRTnames()
 
 	RTnames["COORD"] = COORD_RT;
 	RTnames["COORDINATED"] = COORD_RT;
+	
+	RTnames["CBR-CNR"] = CBRCNR_RT;
+	RTnames["CBR-DF"] = CBRDF_RT;
+	RTnames["CBR-COORD"] = CBRCOORD_RT;	
 
 	RTnames["OPTIMAL"] = OPTIMAL_RT;
 	RTnames["OPTIMAL ROUTING"] = OPTIMAL_RT;
