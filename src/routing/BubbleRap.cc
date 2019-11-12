@@ -275,6 +275,7 @@ void BubbleRap::ReceptionData(Header* hd, Packet* pkt, int PID, double CurrentTi
 	if((hd->GetSource() == this->NodeID) && (hd->GetNextHop() == -1))
 	{
 		Buf->addPkt(RealID, hd->GetDestination(),this->NodeID, CurrentTime, hd->GetHops(), hd->GetprevHop(), pkt->GetStartTime());
+		(Buf->getPacketData(RealID))->SetReplicas(hd->GetRep());
 		Stat->pktGen(RealID, hd->GetSource(), hd->GetDestination(), CurrentTime);
 		return;
 	}
@@ -594,6 +595,10 @@ void BubbleRap::ReceptionRequestVector(Header *hd, Packet *pkt, int PID, double 
 	int *encRequestVector=NULL;
 	bool *encBetterGlobally=NULL;
 
+	int Rcurrent=0;
+	int Rnew=0;
+	double HowMany=0.0;
+	bool shouldremove = false;
 
 	/* Send the packets in the request vector */
 	encRequestVector = (int *) pkt->getContents();
@@ -611,18 +616,44 @@ void BubbleRap::ReceptionRequestVector(Header *hd, Packet *pkt, int PID, double 
 	{
 		for(int i=1;i<=outgoing[0];i++)
 		{
-			SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),1);
-			/* Remove the packet from the buffer */
-			if(Set->getCopyMode())
-			{
-				Buf->removePkt(outgoing[i]);
-			}
 			
-			if(!IntraCopyOn && InterCopyOn)
-			{
-				if(!winsGlobally(outgoing[i],encRequestVector,encBetterGlobally))
-				{
-					Buf->removePkt(outgoing[i]);
+			if(Set->getCopyMode()){//The single-copy case
+				SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),1);
+				Buf->removePkt(outgoing[i]);
+			} else {//The multi-copy case
+				if (Set->getReplicas() > 1){//Multi-copy with spray-based dissemination (activated when choosing -REP k, k>1 + PROFILE (multi-copy)
+					if(!IntraCopyOn && InterCopyOn)
+					{
+						if(!winsGlobally(outgoing[i],encRequestVector,encBetterGlobally))
+						{
+							shouldremove = true;
+						}
+					}
+					Rcurrent=(Buf->getPacketData(outgoing[i]))->GetReplicas();
+					HowMany=((double)Rcurrent)/2.0;
+					Rnew=floor(HowMany);
+					if (shouldremove){
+						Rnew = 1;
+						SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),Rnew);
+					} else {
+						if (Rnew > 0) {
+							SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),Rnew);
+						}
+					}
+					if (Rcurrent - Rnew > 0){
+						(Buf->getPacketData(outgoing[i]))->SetReplicas(Rcurrent-Rnew);
+					} else {
+						Buf->removePkt(outgoing[i]);
+					}
+				} else {//Multi-copy with dynamic replication (activated when -REP 1 + PROFILE (multicopy)
+					SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),1);
+					if(!IntraCopyOn && InterCopyOn)
+					{
+						if(!winsGlobally(outgoing[i],encRequestVector,encBetterGlobally))
+						{
+							Buf->removePkt(outgoing[i]);
+						}
+					}
 				}
 			}
 		}

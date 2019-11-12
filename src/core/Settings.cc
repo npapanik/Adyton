@@ -1394,6 +1394,10 @@ bool Settings::usesLimitedReplication(void)
 		}
 		case BUBBLERAP_RT:
 		{
+			if((this->Replicas > 1) && (this->copyMode == false))
+			{
+				return true;
+			}
 			return false;
 		}
 		case SW_RT:
