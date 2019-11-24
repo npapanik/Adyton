@@ -598,7 +598,6 @@ void BubbleRap::ReceptionRequestVector(Header *hd, Packet *pkt, int PID, double 
 	int Rcurrent=0;
 	int Rnew=0;
 	double HowMany=0.0;
-	bool shouldremove = false;
 
 	/* Send the packets in the request vector */
 	encRequestVector = (int *) pkt->getContents();
@@ -622,24 +621,21 @@ void BubbleRap::ReceptionRequestVector(Header *hd, Packet *pkt, int PID, double 
 				Buf->removePkt(outgoing[i]);
 			} else {//The multi-copy case
 				if (Set->getReplicas() > 1){//Multi-copy with spray-based dissemination (activated when choosing -REP k, k>1 + PROFILE (multi-copy)
-					if(!IntraCopyOn && InterCopyOn)
-					{
-						if(!winsGlobally(outgoing[i],encRequestVector,encBetterGlobally))
-						{
-							shouldremove = true;
-						}
-					}
+					
 					Rcurrent=(Buf->getPacketData(outgoing[i]))->GetReplicas();
 					HowMany=((double)Rcurrent)/2.0;
 					Rnew=floor(HowMany);
-					if (shouldremove){
+					
+					
+					if ((!IntraCopyOn && InterCopyOn && !winsGlobally(outgoing[i],encRequestVector,encBetterGlobally)) || (IntraCopyOn && !winsGlobally(outgoing[i],encRequestVector,encBetterGlobally) && (Rnew == 0)))
+					{
 						Rnew = 1;
-						SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),Rnew);
-					} else {
-						if (Rnew > 0) {
-							SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),Rnew);
-						}
 					}
+					
+					if (Rnew > 0) {
+						SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),Rnew);
+					}					
+					
 					if (Rcurrent - Rnew > 0){
 						(Buf->getPacketData(outgoing[i]))->SetReplicas(Rcurrent-Rnew);
 					} else {
