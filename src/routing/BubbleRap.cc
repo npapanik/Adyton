@@ -624,23 +624,22 @@ void BubbleRap::ReceptionRequestVector(Header *hd, Packet *pkt, int PID, double 
 					
 					Rcurrent=(Buf->getPacketData(outgoing[i]))->GetReplicas();
 					HowMany=((double)Rcurrent)/2.0;
-					Rnew=floor(HowMany);
+					Rnew=ceil(HowMany);
 					
-					
-					if ((!IntraCopyOn && InterCopyOn && !winsGlobally(outgoing[i],encRequestVector,encBetterGlobally)) || (IntraCopyOn && !winsGlobally(outgoing[i],encRequestVector,encBetterGlobally) && (Rnew == 0)))
+					if (!IntraCopyOn && InterCopyOn && !winsGlobally(outgoing[i],encRequestVector,encBetterGlobally))
 					{
 						Rnew = 1;
 					}
 					
 					if (Rnew > 0) {
 						SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),Rnew);
-					}					
-					
-					if (Rcurrent - Rnew > 0){
-						(Buf->getPacketData(outgoing[i]))->SetReplicas(Rcurrent-Rnew);
-					} else {
-						Buf->removePkt(outgoing[i]);
+						if (Rcurrent - Rnew > 0){
+							(Buf->getPacketData(outgoing[i]))->SetReplicas(Rcurrent-Rnew);
+						} else {
+							Buf->removePkt(outgoing[i]);
+						}						
 					}
+					
 				} else {//Multi-copy with dynamic replication (activated when -REP 1 + PROFILE (multicopy)
 					SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),1);
 					if(!IntraCopyOn && InterCopyOn)
