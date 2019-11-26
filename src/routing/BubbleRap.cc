@@ -35,6 +35,7 @@ BubbleRap::BubbleRap(PacketPool* PP, MAC* mc, PacketBuffer* Bf, int NID, Statist
 	string profileAttribute;
 	InterCopyOn=false;
 	IntraCopyOn=false;
+	SprayAndFocusIntra = false;
 	double familiarthreshold;
 	int kappavalue;
 
@@ -86,6 +87,19 @@ BubbleRap::BubbleRap(PacketPool* PP, MAC* mc, PacketBuffer* Bf, int NID, Statist
 			exit(1);
 		}
 	}
+	
+	if(S->ProfileExists() && (profileAttribute = S->GetProfileAttribute("SprayAndFocus")) != "none")
+	{
+		if(profileAttribute == "intra")
+		{
+			SprayAndFocusIntra = true;
+		}
+		else
+		{
+			printf("Use 'intra' for confining the spray opretation inside the destinations community.\n");
+			exit(1);
+		}
+	}		
 	return;
 }
 
@@ -626,10 +640,9 @@ void BubbleRap::ReceptionRequestVector(Header *hd, Packet *pkt, int PID, double 
 					HowMany=((double)Rcurrent)/2.0;
 					Rnew=ceil(HowMany);
 					
-					if (!IntraCopyOn && InterCopyOn && !winsGlobally(outgoing[i],encRequestVector,encBetterGlobally))
-					{
-						Rnew = 1;
-					}
+					if (SprayAndFocusIntra && (Rcurrent == 1) && winsGlobally(outgoing[i],encRequestVector,encBetterGlobally)) Rnew = 0;
+					
+					if (!IntraCopyOn && InterCopyOn && !winsGlobally(outgoing[i],encRequestVector,encBetterGlobally)) Rnew = 1;
 					
 					if (Rnew > 0) {
 						SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),Rnew);

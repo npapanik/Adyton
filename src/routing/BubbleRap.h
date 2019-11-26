@@ -46,6 +46,7 @@ class BubbleRap:public Routing
 protected:
 	bool IntraCopyOn;
 	bool InterCopyOn;
+	bool SprayAndFocusIntra;
 	CentralityApproximation *ranking;
 	CommunityDetection *labeling;
 	virtual void AfterDirectTransfers(double CTime,int NID);
