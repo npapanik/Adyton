@@ -736,7 +736,7 @@ void SimBetTS::ReceptionReqForDest(Header* hd, Packet* pkt, int PID, double Curr
 
 				if(otherReplicas > 0)
 				{
-					if(otherReplicas > 1)
+					if ((otherReplicas > 1) || ((otherReplicas == 1) && (myReplicas > 0)))
 					{
 						Stat->incReps(outgoing[i]);
 					}

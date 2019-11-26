@@ -646,7 +646,7 @@ void BubbleRap::ReceptionRequestVector(Header *hd, Packet *pkt, int PID, double 
 					
 					if (Rnew > 0) {
 						SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),Rnew);
-						if (Rnew > 1) Stat->incReps(outgoing[i]);
+						if ((Rnew > 1) || ((Rnew == 1) && (Rcurrent > 1))) Stat->incReps(outgoing[i]);
 						if (Rcurrent - Rnew > 0){
 							(Buf->getPacketData(outgoing[i]))->SetReplicas(Rcurrent-Rnew);
 						} else {
