@@ -328,7 +328,7 @@ void BubbleRap::ReceptionData(Header* hd, Packet* pkt, int PID, double CurrentTi
 	{
 		/* Update buffer */
 		Buf->addPkt(RealID, hd->GetDestination(),hd->GetSource(),CurrentTime, hd->GetHops(), hd->GetprevHop(), pkt->GetStartTime());
-
+		(Buf->getPacketData(RealID))->SetReplicas(hd->GetRep());
 
 		/* Update statistics */
 		Stat->incTimesAsRelayNode(pkt->GetStartTime());
@@ -633,11 +633,12 @@ void BubbleRap::ReceptionRequestVector(Header *hd, Packet *pkt, int PID, double 
 					
 					if (Rnew > 0) {
 						SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(),Rnew);
+						if (Rnew > 1) Stat->incReps(outgoing[i]);
 						if (Rcurrent - Rnew > 0){
 							(Buf->getPacketData(outgoing[i]))->SetReplicas(Rcurrent-Rnew);
 						} else {
 							Buf->removePkt(outgoing[i]);
-						}						
+						}
 					}
 					
 				} else {//Multi-copy with dynamic replication (activated when -REP 1 + PROFILE (multicopy)
