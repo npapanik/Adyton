@@ -1366,7 +1366,11 @@ bool Settings::isSingleCopy(void)
 		}
 		case SIMBET_RT:
 		{
-			return true;
+			if(this->Replicas == 1)
+			{
+				return true;
+			}
+			return false;
 		}
 		case SIMBETTS_RT:
 		{
@@ -1464,7 +1468,7 @@ bool Settings::usesLimitedReplication(void)
 		}
 		case SIMBET_RT:
 		{
-			return false;
+			return true;
 		}
 		case SIMBETTS_RT:
 		{

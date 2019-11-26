@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Adyton.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Written by Nikolaos Papanikos and Dimitrios-Georgios Akestoridis.
+ *  Written by Nikolaos Papanikos, Dimitrios-Georgios Akestoridis and Evangelos Papapetrou.
  */
 
 
@@ -58,4 +58,5 @@ private:
 	void ReceptionContacts(Header *hd, Packet *pkt, int PID, double CurrentTime);
 	void ReceptionMetricsPerDest(Header *hd, Packet *pkt, int PID, double CurrentTime);
 	void ReceptionReqForDest(Header *hd, Packet *pkt, int PID, double CurrentTime);
+	bool PacketExists(int *PList, int p);
 };

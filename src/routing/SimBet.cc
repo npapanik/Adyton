@@ -18,7 +18,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Adyton.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Written by Nikolaos Papanikos and Dimitrios-Georgios Akestoridis.
+ *  Written by Nikolaos Papanikos, Dimitrios-Georgios Akestoridis and Evangelos Papapetrou.
  */
 
 #ifndef SIMBET_H
@@ -389,6 +389,7 @@ void SimBet::ReceptionMetricsPerDest(Header *hd, Packet *pkt, int PID, double Cu
 	int i;
 	int ReqPos;
 	int *Req;
+	int *OwnedPackets;
 	double mySim;
 	double myBet;
 	double mySimUtil;
@@ -500,6 +501,8 @@ void SimBet::ReceptionMetricsPerDest(Header *hd, Packet *pkt, int PID, double Cu
 	ReqDest->setExtraInfo(CC->getExtraInfo(CurrentTime));
 	((ReqDestinations *) ReqDest)->setSenderUtils(otherSimBetUtils);
 	((ReqDestinations *) ReqDest)->setReceiverUtils(mySimBetUtils);
+	OwnedPackets = Buf->getPackets(Req);
+	((ReqDestinations *)ReqDest)->SetOwned(OwnedPackets);
 	HReq = new BasicHeader(this->NodeID, hd->GetprevHop());
 	ReqDest->setHeader(HReq);
 	pktPool->AddPacket(ReqDest);
@@ -521,12 +524,17 @@ void SimBet::ReceptionReqForDest(Header *hd, Packet *pkt, int PID, double Curren
 {
 	int i;
 	int j;
+	int pos;
+	int myReplicas;
+	int otherReplicas;
 	int *dstRequests;
+	int *AlreadyOwned;
 	int *pktsToSend;
 	int *outgoing;
 	double *mySimBetUtils;
 	double *otherSimBetUtils;
 	void *extraInfo;
+	PacketEntry *pData;
 	struct ExchangedInformation *schInfo;
 	struct ImportInformation *ccInfo;
 
@@ -537,6 +545,7 @@ void SimBet::ReceptionReqForDest(Header *hd, Packet *pkt, int PID, double Curren
 
 	/* Get packet contents and SimBet utility values */
 	dstRequests = (int *) pkt->getContents();
+	AlreadyOwned = ((ReqDestinations *) pkt)->GetOwned();
 	mySimBetUtils = ((ReqDestinations *) pkt)->getSenderUtils();
 	otherSimBetUtils = ((ReqDestinations *) pkt)->getReceiverUtils();
 	extraInfo = pkt->getExtraInfo();
@@ -584,8 +593,68 @@ void SimBet::ReceptionReqForDest(Header *hd, Packet *pkt, int PID, double Curren
 	{
 		for(i = 1; i <= outgoing[0]; i++)
 		{
-			SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(), 1);
-			Buf->removePkt(outgoing[i]);
+			
+			if(PacketExists(AlreadyOwned, outgoing[i]))
+			{
+				continue;
+			}
+			
+			pData = Buf->getPacketData(outgoing[i]);
+
+			if(pData->GetReplicas() == 1)
+			{
+				SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(), 1);
+				Buf->removePkt(outgoing[i]);
+			}
+			else
+			{
+				/* Find the SimBet utilities */
+				pos = -1;
+				for(j = 1; j <= dstRequests[0]; j++)
+				{
+					if(dstRequests[j] == Buf->GetPktDestination(outgoing[i]))
+					{
+						pos = j;
+						break;
+					}
+				}
+
+				if(pos == -1)
+				{
+					printf("Error: The destination node (%d) of packet %d is not in the list of packets to be forwarded to node %d\nAborting...\n", Buf->GetPktDestination(outgoing[i]), outgoing[i], hd->GetprevHop());
+					exit(1);
+				}
+
+
+				/* Divide the number of replicas between the two nodes based on their SimBetTS utilities */
+				//myReplicas = (int) (((double) pData->GetReplicas()) * (mySimBetUtils[pos] / (mySimBetUtils[pos] + otherSimBetUtils[pos])));
+				myReplicas = (int)(floor(((double) pData->GetReplicas())/ 2.0));
+				otherReplicas = pData->GetReplicas() - myReplicas;
+				
+
+				#ifdef SIMBETTS_DEBUG
+					printf("Previous Replicas = %d, Sender's Replicas = %d, Receiver's Replicas = %d\n", pData->GetReplicas(), myReplicas, otherReplicas);
+				#endif
+
+				if(otherReplicas > 0)
+				{
+					if(otherReplicas > 1)
+					{
+						Stat->incReps(outgoing[i]);
+					}
+
+					SendPacket(CurrentTime, outgoing[i], hd->GetprevHop(), otherReplicas);
+				}
+
+				if(myReplicas > 0)
+				{
+					pData->SetReplicas(myReplicas);
+				}
+				else
+				{
+					Buf->removePkt(outgoing[i]);
+				}
+			}
 		}
 
 		free(outgoing);
@@ -609,6 +678,7 @@ void SimBet::ReceptionData(Header* hd, Packet* pkt, int PID, double CurrentTime,
 	{
 		/* Update buffer */
 		Buf->addPkt(RealID, hd->GetDestination(), hd->GetSource(), CurrentTime, hd->GetHops(), hd->GetprevHop(), pkt->GetStartTime());
+		(Buf->getPacketData(RealID))->SetReplicas(hd->GetRep());
 		Stat->pktGen(RealID, hd->GetSource(), hd->GetDestination(), CurrentTime);
 
 		return;
@@ -658,7 +728,7 @@ void SimBet::ReceptionData(Header* hd, Packet* pkt, int PID, double CurrentTime,
 	{
 		/* Update buffer */
 		Buf->addPkt(RealID, hd->GetDestination(), hd->GetSource(), CurrentTime, hd->GetHops(), hd->GetprevHop(), pkt->GetStartTime());
-
+		(Buf->getPacketData(RealID))->SetReplicas(hd->GetRep());
 
 		/* Update statistics */
 		Stat->incTimesAsRelayNode(pkt->GetStartTime());
@@ -679,6 +749,21 @@ void SimBet::ReceptionData(Header* hd, Packet* pkt, int PID, double CurrentTime,
 	return;
 }
 
+bool SimBet::PacketExists(int* PList, int p)
+{
+	int i;
+
+
+	for(i = 1; i <= PList[0]; i++)
+	{
+		if(PList[i] == p)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
 
 void SimBet::SendPacket(double STime, int pktID, int nHop, int RepValue)
 {
