@@ -705,6 +705,14 @@ void SimBet::ReceptionData(Header* hd, Packet* pkt, int PID, double CurrentTime,
 			printf("\n@%f: Node %d received a delivery packet with ID %d from node %d\n", CurrentTime, this->NodeID, RealID, hd->GetprevHop());
 		#endif
 
+		/* Update deletion mechanism */
+		if(DM->NoDuplicatesSupport() && DM->isDelivered(RealID))
+		{
+			printf("Problem: Packet %d has been already delivered!\n",RealID);
+			exit(1);
+		}
+		DM->setAsDelivered(RealID);
+
 		/* Update statistics */
 		Stat->pktRec(hd->GetHops(), (CurrentTime - pkt->GetStartTime()), pkt, pkt->GetStartTime(), false);
 
