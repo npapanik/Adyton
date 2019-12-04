@@ -143,6 +143,9 @@ void SimBet::NewContact(double CTime, int NID)
 
 void SimBet::Contact(double CTime, int NID)
 {
+
+	int *Information;
+
 	#ifdef CC_DEBUG
 		printf("\n@%f: Node %d encountered node %d, while carrying the following packets:\n", CTime, this->NodeID, NID);
 		Buf->printBufferContents();
@@ -162,8 +165,26 @@ void SimBet::Contact(double CTime, int NID)
 
 	CC->contactUp(CTime, NID);
 
-	//First send all packets that have NID as destination
-	SendDirectPackets(CTime, NID);
+	//Get information about known delivered packet
+	Information = DM->GetInfo();
+	if(Information != NULL)
+	{
+		//Create a vaccine information packet
+		SendVaccine(CTime, NID, Information);
+	}
+	else
+	{
+		//Clean buffer using Deletion method (Delivered pkts)
+		DM->CleanBuffer(this->Buf);
+		if(DM->ExchangeDirectSummary())
+		{
+			SendDirectSummary(CTime, NID);
+		}
+		else
+		{
+			SendDirectPackets(CTime, NID);
+		}
+	}
 
 	return;
 }
@@ -215,6 +236,16 @@ void SimBet::recv(double rTime, int pktID)
 		case DATA_PACKET:
 		{
 			ReceptionData(h, p, pktID, rTime, PacketID);
+			break;
+		}
+		case DIRECT_SUMMARY_PACKET:
+		{
+			ReceptionDirectSummary(h, p, pktID, rTime);
+			break;
+		}
+		case DIRECT_REQUEST_PACKET:
+		{
+			ReceptionDirectRequest(h, p, pktID, rTime);
 			break;
 		}
 		case REQUEST_CONTACTS_PACKET:
